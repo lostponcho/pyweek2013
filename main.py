@@ -69,19 +69,56 @@ class Game(object):
     def set_state(self, state):
         self.state = state
 
-class TestState(object):
+class TitleState(object):
     def __init__(self, game):
         self.game = game
+        self.objs = []
+        
+        title = text.Text(x=0, y=40, font=game.font_l, text="Underworld Kerfuffle")
+        title.center_x(0, self.game.width)
+        self.objs.append(title)
+        
+        msg = text.Text(x=0, y=500, font=game.font_m, text="Press FIRE to start", color=(100, 230, 230))
+        msg.center_x(0, self.game.width)
+        self.objs.append(msg)
+        
+    def handle_event(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                exit()
+            elif event.key == K_SPACE:
+                self.game.set_state(GameState(self.game))
+        elif event.type == pygame.JOYBUTTONDOWN:
+            print "Joystick button pressed."
+            self.game.set_state(GameState(self.game))            
+        elif event.type == pygame.JOYBUTTONUP:
+            print "Joystick button released."                
+        elif event.type == JOYBALLMOTION:
+            print "JOYBALLMOTION"
+        elif event.type == JOYHATMOTION:
+            print "JOYHATMOTION"
+
+    def update(self, tick):
+        pass
+            
+    def display(self, screen):
+        for obj in self.objs:
+            obj.display(screen)
+
+class GameState(object):
+    def __init__(self, game):
+        self.game = game
+        
         self.x, self.y = 400, 300
         self.man = pygame.sprite.Sprite()
         self.man.image = pygame.image.load("resources/man.png").convert_alpha()
         self.man.rect = self.man.image.get_rect().move(self.x, self.y)
-    
+        
         self.cx, self.cy = 400, 300
         self.cross = pygame.sprite.Sprite()
         self.cross.image = pygame.image.load("resources/crosshair.png").convert_alpha()
         self.cross.rect = self.cross.image.get_rect().move(self.cx, self.cy)
-
+        
         self.dx, self.dy = 0, 0
         self.cdx, self.cdy = 0, 0
 
@@ -95,7 +132,7 @@ class TestState(object):
         
     def handle_event(self, event):
         if event.type == KEYDOWN and event.key == K_ESCAPE:
-            exit()
+            self.game.set_state(TitleState(self.game))
         elif event.type == JOYAXISMOTION:
             if event.axis == 0:
                 if abs(event.value) > 0.2:
@@ -133,13 +170,8 @@ class TestState(object):
         self.cross.rect.y += self.cdy * tick
             
     def display(self, screen):
-        self.title.display(screen)
         screen.blit(self.man.image, self.man.rect)
         screen.blit(self.cross.image, self.cross.rect)
-        self.msg1.display(screen)
-        self.msg2.display(screen)        
-    
+        
 if __name__ == '__main__':
-    Game(TestState).run()
-                
-                
+    Game(TitleState).run()
