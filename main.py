@@ -5,7 +5,7 @@ from pygame.locals import *
 import pygame.joystick as gpad
 
 import text
-
+import tilemap
 
 class Game(object):
     title = "Underworld Kerfuffle"
@@ -74,9 +74,19 @@ class TitleState(object):
         self.game = game
         self.objs = []
         
+        title = text.Text(x=0, y=40, font=game.font_l, text="Underworld Kerfuffle", color=(0, 0, 0))
+        title.center_x(0, self.game.width)
+        title.move(4, 4)
+        self.objs.append(title)
+        
         title = text.Text(x=0, y=40, font=game.font_l, text="Underworld Kerfuffle")
         title.center_x(0, self.game.width)
         self.objs.append(title)
+        
+        msg = text.Text(x=0, y=500, font=game.font_m, text="Press FIRE to start", color=(0, 0, 0))
+        msg.center_x(0, self.game.width)
+        msg.move(4, 4)
+        self.objs.append(msg)
         
         msg = text.Text(x=0, y=500, font=game.font_m, text="Press FIRE to start", color=(100, 230, 230))
         msg.center_x(0, self.game.width)
@@ -122,13 +132,11 @@ class GameState(object):
         self.dx, self.dy = 0, 0
         self.cdx, self.cdy = 0, 0
 
-        self.title = text.Text(x=0, y=40, font=game.font_l, text="Underworld Kerfuffle")
-        self.title.center_x(0, self.game.width)
-        
-        self.msg1 = text.Text(x=0, y=500, font=game.font_m, text="Press FIRE to start", color=(100, 230, 230))
-        self.msg1.center_x(0, self.game.width)
-        
-        self.msg2 = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!", color=(0, 0, 0))        
+        self.msg = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!", color=(0, 0, 0))
+
+        tileset = tilemap.load_tileset(tilemap.img_data, "grass")
+        self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
+        self.map.random_fill()
         
     def handle_event(self, event):
         if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -170,8 +178,11 @@ class GameState(object):
         self.cross.rect.y += self.cdy * tick
             
     def display(self, screen):
+        self.map.display(screen, (0, 0, 800, 600))
         screen.blit(self.man.image, self.man.rect)
         screen.blit(self.cross.image, self.cross.rect)
+        self.msg.display(screen)
+
         
 if __name__ == '__main__':
     Game(TitleState).run()

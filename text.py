@@ -17,9 +17,13 @@ class Text(object):
         self.color = color
         self.render()
 
-    def move(self, x, y):
+    def set(self, x, y):
         self.pos.x = x
         self.pos.y = y
+
+    def move(self, dx, dy):
+        self.pos.x += dx
+        self.pos.y += dy
 
     def center_x(self, x1, x2):
         _, _, w, _ = self.pos
