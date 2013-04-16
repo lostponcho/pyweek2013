@@ -99,10 +99,10 @@ class TitleState(object):
             elif event.key == K_SPACE:
                 self.game.set_state(GameState(self.game))
         elif event.type == pygame.JOYBUTTONDOWN:
-            print "Joystick button pressed."
+            print "Joystick button {} pressed.".format(event.value)
             self.game.set_state(GameState(self.game))            
         elif event.type == pygame.JOYBUTTONUP:
-            print "Joystick button released."                
+            print "Joystick button {} released.".format(event.value)
         elif event.type == JOYBALLMOTION:
             print "JOYBALLMOTION"
         elif event.type == JOYHATMOTION:
@@ -142,6 +142,7 @@ class GameState(object):
         if event.type == KEYDOWN and event.key == K_ESCAPE:
             self.game.set_state(TitleState(self.game))
         elif event.type == JOYAXISMOTION:
+            print "Movement on {} axis.".format(event.axis)
             if event.axis == 0:
                 if abs(event.value) > 0.2:
                     self.dx = event.value * 100

@@ -2,10 +2,11 @@ import pygame
 from pygame.locals import *
 
 class Text(object):
-    def __init__(self, x=0, y=0, font=None, text="", color=(255, 255, 255)):
+    def __init__(self, x=0, y=0, font=None, text="", color=(255, 255, 255), background=None):
         self.font = font
         self.text = text
         self.color = color
+        self.background = background
         self.pos = (x, y, 0, 0)
         self.render()
 
@@ -37,10 +38,9 @@ class Text(object):
         return self.pos
         
     def render(self):
-        self.surface = self.font.render(self.text, True, self.color)
+        self.surface = self.font.render(self.text, True, self.color, background=background)
         x, y, _, _ = self.pos
         self.pos = self.surface.get_rect(x=x, y=y)
     
     def display(self, surface):
         surface.blit(self.surface, self.pos)
-        
