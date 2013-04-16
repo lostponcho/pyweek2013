@@ -85,7 +85,7 @@ class TileMap(object):
                         # Keep dx limited to this value
                         x_to_be_hard_against = (tile_x - 1) * self.tile_w + self.tile_w
                         x_to_be_at = x_to_be_hard_against - w - 1 # Possibly -1
-                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)
+#                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)
                         dx = x_to_be_at - x
                         break
                 
@@ -103,12 +103,48 @@ class TileMap(object):
                         # Keep dx limited to this value
                         x_to_be_hard_against = (tile_x + 1) * self.tile_w
                         x_to_be_at = x_to_be_hard_against # Possibly +1
-                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)                        
+#                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)                        
                         dx = x_to_be_at - x
                         break
-            
-        # TODO: Handle y movement
 
+        # Handle y movement
+        if dy > 0:
+            # Y range below
+            # From smallest to largest, so we stop as early as possible
+            for tile_y in range(int((y + h) / self.tile_h) + 1,
+                                int((y + h + dy) / self.tile_h) + 1):
+
+                # X range in centre             
+                for tile_x in range(int(x / self.tile_w),
+                                    int((x + w) / self.tile_w) + 1):
+
+                    # This actually seems right, I can't even fucking believe it
+                    if self.tiles[tile_x][tile_y].is_blocked:
+                        # Keep dy limited to this value
+                        y_to_be_hard_against = (tile_y - 1) * self.tile_h + self.tile_h
+                        y_to_be_at = y_to_be_hard_against - h - 1 # Possibly -1
+                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dy, y_to_be_at, y, tile_y, tile_x)
+                        dy = y_to_be_at - y
+                        break
+                
+        else:
+            # Y range above            
+            for tile_y in range(int((y) / self.tile_h) - 1,
+                                int((y + dy) / self.tile_h) - 1, -1):
+                
+                # X range in centre 
+                for tile_x in range(int(x / self.tile_w),
+                                    int((x + w) / self.tile_w) + 1):
+
+                    # This actually seems right, I can't even fucking believe it                    
+                    if self.tiles[tile_x][tile_y].is_blocked:
+                        # Keep dy limited to this value
+                        y_to_be_hard_against = (tile_y + 1) * self.tile_h
+                        y_to_be_at = y_to_be_hard_against # Possibly +1
+                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dy, y_to_be_at, y, tile_y, tile_x)                        
+                        dy = y_to_be_at - y
+                        break
+                    
         return dx, dy
 
     def display(self, screen, camera):
