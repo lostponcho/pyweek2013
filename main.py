@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import pygame
 from pygame.locals import *
 import pygame.joystick as gpad
@@ -15,7 +16,7 @@ class Game(object):
 
     def __init__(self, state):
         pygame.init()
-        pygame.key.set_repeat(300, 50)
+        # pygame.key.set_repeat(300, 50)
         if not pygame.font:
             exit()
 
@@ -99,10 +100,10 @@ class TitleState(object):
             elif event.key == K_SPACE:
                 self.game.set_state(GameState(self.game))
         elif event.type == pygame.JOYBUTTONDOWN:
-            print "Joystick button {} pressed.".format(event.value)
+            print "Joystick button {} pressed.".format(event.button)
             self.game.set_state(GameState(self.game))            
         elif event.type == pygame.JOYBUTTONUP:
-            print "Joystick button {} released.".format(event.value)
+            print "Joystick button {} released.".format(event.button)
         elif event.type == JOYBALLMOTION:
             print "JOYBALLMOTION"
         elif event.type == JOYHATMOTION:
@@ -122,7 +123,7 @@ class GameState(object):
         self.x, self.y = 400, 300
         self.man = pygame.sprite.Sprite()
         self.man.image = pygame.image.load("resources/man.png").convert_alpha()
-        self.man.rect = self.man.image.get_rect().move(self.x, self.y)
+        self.man.rect = self.man.image.get_rect().move(self.x, self.y)        
         
         self.cx, self.cy = 400, 300
         self.cross = pygame.sprite.Sprite()
@@ -132,17 +133,42 @@ class GameState(object):
         self.dx, self.dy = 0, 0
         self.cdx, self.cdy = 0, 0
 
-        self.msg = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!", color=(0, 0, 0))
+        self.msg = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!",
+                             color=(0, 0, 0), background=(255, 255, 255))
 
         tileset = tilemap.load_tileset(tilemap.img_data, "grass")
         self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
         self.map.random_fill()
         
     def handle_event(self, event):
-        if event.type == KEYDOWN and event.key == K_ESCAPE:
-            self.game.set_state(TitleState(self.game))
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.game.set_state(TitleState(self.game))
+            elif event.key == K_w:
+                self.dy -= 100
+            elif event.key == K_a:
+                self.dx -= 100
+            elif event.key == K_s:
+                self.dy += 100
+            elif event.key == K_d:
+                self.dx += 100
+            elif event.key == K_F12:
+                for i in range(200):
+                    filename = 'screenshot{}.png'.format(i)
+                    if not os.path.isfile(filename):
+                        pygame.image.save(self.game.screen, filename)
+                        break
+        elif event.type == KEYUP:
+            if event.key == K_w:
+                self.dy += 100
+            elif event.key == K_a:
+                self.dx += 100
+            elif event.key == K_s:
+                self.dy -= 100
+            elif event.key == K_d:
+                self.dx -= 100
         elif event.type == JOYAXISMOTION:
-            print "Movement on {} axis.".format(event.axis)
+#            print "Movement on {} axis.".format(event.axis)
             if event.axis == 0:
                 if abs(event.value) > 0.2:
                     self.dx = event.value * 100
@@ -173,8 +199,10 @@ class GameState(object):
             print "JOYHATMOTION"
 
     def update(self, tick):
-        self.man.rect.x += self.dx * tick
-        self.man.rect.y += self.dy * tick
+        dx, dy = self.map.collide(self.man.rect, self.dx * tick, self.dy * tick)
+        self.man.rect.x += dx
+        self.man.rect.y += dy
+        
         self.cross.rect.x += self.cdx * tick
         self.cross.rect.y += self.cdy * tick
             

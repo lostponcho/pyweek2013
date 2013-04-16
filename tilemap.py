@@ -62,7 +62,7 @@ class TileMap(object):
         """
 
         if dx == 0 and dy == 0:
-            return False
+            return 0, 0
         
         x, y, w, h = rect
 
@@ -83,15 +83,16 @@ class TileMap(object):
                     # This actually seems right, I can't even fucking believe it
                     if self.tiles[tile_x][tile_y].is_blocked:
                         # Keep dx limited to this value
-                        x_to_be_hard_against = tile_x - 1 + self.tile_w
-                        x_to_be_at = x_to_be_hard_against - w # Possibly -1
+                        x_to_be_hard_against = (tile_x - 1) * self.tile_w + self.tile_w
+                        x_to_be_at = x_to_be_hard_against - w - 1 # Possibly -1
+                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)
                         dx = x_to_be_at - x
                         break
                 
         else:
             # X range to the left            
-            for tile_x in range(int((x) / tile_w) - 1,
-                                int((x + dx) / tile_w) - 1, -1):
+            for tile_x in range(int((x) / self.tile_w) - 1,
+                                int((x + dx) / self.tile_w) - 1, -1):
                 
                 # Y range in centre 
                 for tile_y in range(int(y / self.tile_h),
@@ -100,38 +101,45 @@ class TileMap(object):
                     # This actually seems right, I can't even fucking believe it                    
                     if self.tiles[tile_x][tile_y].is_blocked:
                         # Keep dx limited to this value
-                        x_to_be_hard_against = tile_x + 1
+                        x_to_be_hard_against = (tile_x + 1) * self.tile_w
                         x_to_be_at = x_to_be_hard_against # Possibly +1
+                        print "%2dx%2d %2.2f %d %d %d %d" % (x/self.tile_w, y/self.tile_h, dx, x_to_be_at, x, tile_x, tile_y)                        
                         dx = x_to_be_at - x
                         break
             
         # TODO: Handle y movement
 
+        return dx, dy
+
     def display(self, screen, camera):
         cx, cy, cw, ch = camera
-        for i in xrange(max(0, cy / self.tile_h),
-                        min((cy + ch) / self.tile_h + 1, len(self.tiles))):
-            for j in xrange(max(0, cx / self.tile_w),
-                            min((cx + cw) / self.tile_w + 1, len(self.tiles[i]))):
+        for i in xrange(max(0, cx / self.tile_w),
+                        min((cx + cw) / self.tile_w + 1, len(self.tiles))):
+            for j in xrange(max(0, cy / self.tile_h),
+                            min((cy + ch) / self.tile_h + 1, len(self.tiles[i]))):
                 screen.blit(self.tiles[i][j].image,
-                            (j * self.tile_w - cx, i * self.tile_h - cy),
+                            (i * self.tile_w - cx, j * self.tile_h - cy),
                             self.tiles[i][j].rect)
 
 img_data = {
-    "resources/testsheet.png" : { # "little dude" : (0, 0, 32, 32, None),
-                                  "dark floor"  : (1, 0, 32, 32, None),
-                                  "light floor" : (2, 0, 32, 32, None),
-                                  "blue floor"  : (3, 0, 32, 32, None),
-                                  "grass"       : (4, 0, 32, 32, None) }
+    "resources/testsheet.png" : { # "little dude" : (0, 0, 32, 32, False),
+                                  "dark floor"  : (1, 0, 32, 32, False),
+                                  "light floor" : (2, 0, 32, 32, False),
+                                  "blue floor"  : (3, 0, 32, 32, False),
+                                  "grass"       : (4, 0, 32, 32, False) },
+    "resources/crackedfloor.png" : { "cracked floor" : (0, 0, 32, 32, False), },
+    "resources/brickwall.png" : { "brick wall left" : (0, 0, 32, 32, True),
+                                  "brick wall mid" : (1, 0, 32, 32, True),
+                                  "brick wall right" : (2, 0, 32, 32, True), }    
     }
 
 def load_tileset(tile_dict, default):
     d = {}
     for sheet_img, defs in tile_dict.iteritems():
         img = pygame.image.load(sheet_img).convert_alpha()
-        for name, (x, y, w, h, props) in defs.iteritems():
+        for name, (x, y, w, h, is_blocked) in defs.iteritems():
             x, y = x * w, y * h
-            d[name] = Tile(img, pygame.Rect(x, y, w, h))
+            d[name] = Tile(img, pygame.Rect(x, y, w, h), is_blocked)
     return TileSet(d, default)
 
 # Test

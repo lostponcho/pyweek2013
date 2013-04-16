@@ -38,7 +38,10 @@ class Text(object):
         return self.pos
         
     def render(self):
-        self.surface = self.font.render(self.text, True, self.color, background=background)
+        if self.background is not None:
+            self.surface = self.font.render(self.text, True, self.color, self.background)
+        else:
+            self.surface = self.font.render(self.text, True, self.color)            
         x, y, _, _ = self.pos
         self.pos = self.surface.get_rect(x=x, y=y)
     
