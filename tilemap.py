@@ -179,8 +179,13 @@ img_data = {
                                   "brick wall right" : (2, 0, 32, 32, True), }    
     }
 
-base_tileset = ["dark floor", "light floor", "blue floor", "grass",
-                "cracked floor", "brick wall mid"]
+base_tileset = ["dark floor",
+                "light floor",
+                "blue floor",
+                "grass",
+                "cracked floor",
+                #"brick wall mid"
+                ]
 
 def load_tileset(tile_dict, default):
     d = {}

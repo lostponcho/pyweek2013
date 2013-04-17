@@ -7,6 +7,7 @@ import pygame.joystick as gpad
 
 import text
 import tilemap
+import camera
 
 class Game(object):
     title = "Underworld Kerfuffle"
@@ -139,6 +140,10 @@ class GameState(object):
         tileset = tilemap.load_tileset(tilemap.img_data, "grass")
         self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
         self.map.random_fill(tilemap.base_tileset)
+
+        self.camera = camera.Camera(self.game.width, self.game.height,
+                                    self.map.w * self.map.tile_w,
+                                    self.map.h * self.map.tile_h)
         
     def handle_event(self, event):
         if event.type == KEYDOWN:
@@ -204,13 +209,15 @@ class GameState(object):
         dx, dy = self.map.collide(self.man.rect, self.dx * tick, self.dy * tick)
         self.man.rect.x += dx
         self.man.rect.y += dy
+
+        self.camera.update(self.man.rect.x, self.man.rect.y)
         
         self.cross.rect.x += self.cdx * tick
         self.cross.rect.y += self.cdy * tick
             
     def display(self, screen):
-        self.map.display(screen, (0, 0, self.game.width, self.game.height))
-        screen.blit(self.man.image, self.man.rect)
+        self.map.display(screen, self.camera.pos)
+        screen.blit(self.man.image, self.man.rect.move(-self.camera.pos.x, -self.camera.pos.y))
         screen.blit(self.cross.image, self.cross.rect)
         self.msg.display(screen)
 

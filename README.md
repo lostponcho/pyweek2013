@@ -7,11 +7,10 @@ DONE
 ----
 
 * Collisions with tile layer (no more weird diagonal wall walking.)
+* Camera follows player, and tile layer
 
 TODO
 ----
-
-* tile layer / camera doesn't follow player
 
 * Store entities in data structures
   - Lists based on collision/update type
