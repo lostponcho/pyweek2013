@@ -152,6 +152,8 @@ class GameState(object):
                 self.dy += 100
             elif event.key == K_d:
                 self.dx += 100
+            elif event.key == K_p:
+                self.game.set_state(PauseState(self.game, self))
             elif event.key == K_F12:
                 for i in range(200):
                     filename = 'screenshot{}.png'.format(i)
@@ -207,11 +209,31 @@ class GameState(object):
         self.cross.rect.y += self.cdy * tick
             
     def display(self, screen):
-        self.map.display(screen, (0, 0, 800, 600))
+        self.map.display(screen, (0, 0, self.game.width, self.game.height))
         screen.blit(self.man.image, self.man.rect)
         screen.blit(self.cross.image, self.cross.rect)
         self.msg.display(screen)
 
+class PauseState(object):
+    def __init__(self, game, parent):
+        self.game = game
+        self.parent = parent
+        self.img = self.game.screen.copy()
+        self.text = text.Text(font=game.font_l, text="PAUSED", color=(0, 0, 0), background=(255, 255, 255))
+        title.center_x(0, self.game.width)
+        title.center_y(0, self.game.width)
+        
+    def handle_event(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.game.set_state(parent)
+
+    def update(self, tick):
+        pass
+    
+    def display(self, screen):
+        screen.blit(self.img, (0, 0, self.game.width, self.game.height))
+        self.text.display(screen)
         
 if __name__ == '__main__':
     Game(TitleState).run()
