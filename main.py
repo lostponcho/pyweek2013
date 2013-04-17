@@ -219,14 +219,14 @@ class PauseState(object):
         self.game = game
         self.parent = parent
         self.img = self.game.screen.copy()
-        self.text = text.Text(font=game.font_l, text="PAUSED", color=(0, 0, 0), background=(255, 255, 255))
-        title.center_x(0, self.game.width)
-        title.center_y(0, self.game.width)
+        self.text = text.Text(font=game.font_l, text="paused", color=(0, 0, 0), background=(255, 255, 255))
+        self.text.center_x(0, self.game.width)
+        self.text.center_y(0, self.game.height)
         
     def handle_event(self, event):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                self.game.set_state(parent)
+                self.game.set_state(self.parent)
 
     def update(self, tick):
         pass

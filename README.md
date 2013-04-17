@@ -3,11 +3,13 @@ Underworld Kerfuffle
 
 Created for pyweek 2013
 
+DONE
+----
+
+* Collisions with tile layer (no more weird diagonal wall walking.)
 
 TODO
 ----
-
-* TEST: Collisions with tile layer
 
 * tile layer / camera doesn't follow player
 
