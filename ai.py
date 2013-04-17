@@ -31,7 +31,7 @@
 
 # Don't cluster too close to allies.
 
-# Flee - away from enemies, near allies
+# Flee - away from enemies, near allies (annoying for enemies?)
 
 # Use ability (i.e. aid allies? ) - Actions need to be queriable
 
