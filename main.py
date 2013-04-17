@@ -138,7 +138,7 @@ class GameState(object):
 
         tileset = tilemap.load_tileset(tilemap.img_data, "grass")
         self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
-        self.map.random_fill()
+        self.map.random_fill(tilemap.base_tileset)
         
     def handle_event(self, event):
         if event.type == KEYDOWN:

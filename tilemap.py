@@ -32,8 +32,8 @@ class TileMap(object):
                        for _ in range(h)]
                       for _ in range(w)]
 
-    def random_fill(self):
-        tile_list = list(self.tileset.tiles.itervalues())
+    def random_fill(self, tile_list):
+        tile_list = [self.tileset.tiles[tile] for tile in tile_list]
         
         for x in range(self.w):
             for y in range(self.h):
@@ -178,6 +178,9 @@ img_data = {
                                   "brick wall mid" : (1, 0, 32, 32, True),
                                   "brick wall right" : (2, 0, 32, 32, True), }    
     }
+
+base_tileset = ["dark floor", "light floor", "blue floor", "grass",
+                "cracked floor", "brick wall mid"]
 
 def load_tileset(tile_dict, default):
     d = {}

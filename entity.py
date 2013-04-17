@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 import animation
+import random
 
 # Collision rects should be floor rects - to work with the wall images
 # Small rects for collisions
@@ -29,7 +30,8 @@ class Entity(object):
         self.dpos.y = 0
 
     def ai_update(self):
-        pass
+        self.dpos.x = random.randint(-10, 10) 
+        self.dpos.y = random.randint(-10, 10) 
 
     def draw(self, surface, camera, tick):
         self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y), tick)
