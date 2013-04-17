@@ -174,8 +174,8 @@ img_data = {
                                   "blue floor"  : (3, 0, 32, 32, False),
                                   "grass"       : (4, 0, 32, 32, False) },
     "resources/crackedfloor.png" : { "cracked floor" : (0, 0, 32, 32, False), },
-    "resources/brickwall.png" : { "brick wall left" : (0, 0, 32, 32, True),
-                                  "brick wall mid" : (1, 0, 32, 32, True),
+    "resources/brickwall.png" : { "brick wall left"  : (0, 0, 32, 32, True),
+                                  "brick wall mid"   : (1, 0, 32, 32, True),
                                   "brick wall right" : (2, 0, 32, 32, True), }    
     }
 
@@ -184,7 +184,7 @@ base_tileset = ["dark floor",
                 "blue floor",
                 "grass",
                 "cracked floor",
-                #"brick wall mid"
+                "brick wall mid"
                 ]
 
 def load_tileset(tile_dict, default):

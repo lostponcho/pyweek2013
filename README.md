@@ -1,7 +1,11 @@
 Underworld Kerfuffle
 ====================
 
-Created for pyweek 2013
+Entry in PyWeek 16 (2013)
+URL: http://www.pyweek.org/e/underworldwar/
+Members: vwood <vwood.org@gmail.com>, mieponcho
+License: see LICENSE.txt (except the font, which has its own license)
+
 
 DONE
 ----
