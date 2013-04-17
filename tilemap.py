@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 import random
+import math
 
 class Tile(object):
     """A tile definition.
@@ -38,18 +39,33 @@ class TileMap(object):
             for y in range(self.h):
                 self.tiles[x][y] = tile_list[random.randint(0, len(tile_list)-1)]
 
+# Change to use mini tile_sets - (lists of names)
+# Have a filter to fix based on rules - change tiles to their correct edge type                
     def add_box(self, x, y, w, h, tile_name):
         """Add a box of a given tile to the map.
         """
         tile = self.tileset.tiles[tile_name]
         
-        for i in range(w):
+        for i in range(x, x + w):
             self.tiles[i][y] = tile
             self.tiles[i][y + h - 1] = tile 
             
-        for i in range(h):
+        for i in range(y, y + h):
             self.tiles[x][i] = tile
-            self.tiles[x + w - 1][i] = tile 
+            self.tiles[x + w - 1][i] = tile
+
+    def add_circle(self, x, y, radius, tile_name):
+        """Add a filled circle.
+        """
+        tile = self.tileset.tiles[tile_name]
+        
+        def dist(x1, y1):
+            return sqrt((x - x1) ** 2 + (y - y1) ** 2)
+        
+        for i in range(max(0, x-radius), min(x+radius, self.w-1)):
+            for j in range(max(0, y-radius), min(y+radius, self.h-1)):
+                if dist(i, j) <= radius:
+                    self.tiles[i][j] = tile
         
     def add_edge_wall(self, tile_name):
         """Add walls to edge.
