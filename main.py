@@ -140,6 +140,7 @@ class GameState(object):
         tileset = tilemap.load_tileset(tilemap.img_data, "grass")
         self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
         self.map.random_fill(tilemap.base_tileset)
+        self.map.add_edge_wall("brick wall mid")        
 
         self.camera = camera.Camera(self.game.width, self.game.height,
                                     self.map.w * self.map.tile_w,
