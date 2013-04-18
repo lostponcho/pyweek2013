@@ -220,37 +220,3 @@ def load_tileset(tile_dict, default):
             x, y = x * w, y * h
             d[name] = Tile(img, pygame.Rect(x, y, w, h), is_blocked)
     return TileSet(d, default)
-
-# Test
-if __name__ == '__main__':
-    def centre(x, w, dx, tile_w):
-        """Get the tiles that we already cover.
-        """
-        return range(int(x / tile_w),
-                     int((x + w) / tile_w) + 1)
-
-    def pos_x_collide(x, w, dx, tile_w):
-        """Get the new tiles that will move over.
-        """
-        return range(int((x + w) / tile_w) + 1,
-                     int((x + w + dx) / tile_w) + 1)
-
-    def neg_x_collide(x, w, dx, tile_w):
-        """Get the new tiles that will move over.
-        """
-        return range(int(x / tile_w) - 1,
-                     int((x + dx) / tile_w) - 1, -1)
-    print list(centre(0, 15, 10, 16))
-    print list(centre(0, 15, 10, 10))
-    print list(centre(0, 15, 20, 10))
-    print list(centre(0, 15, 10, 5))
-    print '---'
-    print list(pos_x_collide(0, 15, 10, 16))
-    print list(pos_x_collide(0, 15, 10, 10))
-    print list(pos_x_collide(0, 15, 20, 10))
-    print list(pos_x_collide(0, 15, 10, 5))
-    print '---'
-    print list(neg_x_collide(0, 15, 10, -16))
-    print list(neg_x_collide(0, 15, 10, -10))
-    print list(neg_x_collide(0, 15, 20, -10))
-    print list(neg_x_collide(0, 15, 10, -5))
