@@ -25,6 +25,9 @@ class Player(object):
 
 class Entity(object):
     def __init__(self, world, pos, animation, collision, ai):
+        """All components should be optional.
+        Track our entries in the world lists.
+        """
         self.ai = None
         self.animation = animation
         self.rect = pygame.Rect(pos, (self.drawing.w, self.drawing.h))

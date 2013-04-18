@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 import pygame.joystick as gpad
 
+import resourcemanager
 import text
 import tilemap
 import camera
@@ -17,6 +18,7 @@ class Game(object):
 
     def __init__(self, state):
         pygame.init()
+
         # pygame.key.set_repeat(300, 50)
         if not pygame.font:
             exit()
@@ -39,7 +41,9 @@ class Game(object):
         self.clock = pygame.time.Clock()
 
         self.screen = pygame.display.set_mode((self.width, self.height))
-
+        
+        resourcemanager.load_resources()
+        
         pygame.display.set_caption(self.title)
 
         self.state = state(self)
@@ -102,6 +106,7 @@ class TitleState(object):
                 self.game.set_state(GameState(self.game))
         elif event.type == pygame.JOYBUTTONDOWN:
             print "Joystick button {} pressed.".format(event.button)
+            resourcemanager.sounds["select"].play()
             self.game.set_state(GameState(self.game))            
         elif event.type == pygame.JOYBUTTONUP:
             print "Joystick button {} released.".format(event.button)
@@ -159,6 +164,7 @@ class GameState(object):
             elif event.key == K_d:
                 self.dx += 100
             elif event.key == K_p:
+                resourcemanager.sounds["select"].play()
                 self.game.set_state(PauseState(self.game, self))
             elif event.key == K_F12:
                 for i in range(200):
@@ -234,6 +240,7 @@ class PauseState(object):
     def handle_event(self, event):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
+                resourcemanager.sounds["select"].play()                
                 self.game.set_state(self.parent)
 
     def update(self, tick):

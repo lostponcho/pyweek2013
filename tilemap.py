@@ -192,31 +192,3 @@ class TileMap(object):
                             (i * self.tile_w - cx, j * self.tile_h - cy),
                             self.tiles[i][j].rect)
 
-img_data = {
-    "resources/testsheet.png" : { # "little dude" : (0, 0, 32, 32, False),
-                                  "dark floor"  : (1, 0, 32, 32, False),
-                                  "light floor" : (2, 0, 32, 32, False),
-                                  "blue floor"  : (3, 0, 32, 32, False),
-                                  "grass"       : (4, 0, 32, 32, False) },
-    "resources/crackedfloor.png" : { "cracked floor" : (0, 0, 32, 32, False), },
-    "resources/brickwall.png" : { "brick wall left"  : (0, 0, 32, 32, True),
-                                  "brick wall mid"   : (1, 0, 32, 32, True),
-                                  "brick wall right" : (2, 0, 32, 32, True), }    
-    }
-
-base_tileset = ["dark floor",
-                "light floor",
-                "blue floor",
-                "grass",
-                "cracked floor",
-                "brick wall mid"
-                ]
-
-def load_tileset(tile_dict, default):
-    d = {}
-    for sheet_img, defs in tile_dict.iteritems():
-        img = pygame.image.load(sheet_img).convert_alpha()
-        for name, (x, y, w, h, is_blocked) in defs.iteritems():
-            x, y = x * w, y * h
-            d[name] = Tile(img, pygame.Rect(x, y, w, h), is_blocked)
-    return TileSet(d, default)
