@@ -18,6 +18,7 @@ class Game(object):
 
     def __init__(self, state):
         pygame.init()
+        pygame.mixer.init()
 
         # pygame.key.set_repeat(300, 50)
         if not pygame.font:
@@ -103,6 +104,7 @@ class TitleState(object):
             if event.key == K_ESCAPE:
                 exit()
             elif event.key == K_SPACE:
+                resourcemanager.sounds["select"].play()                
                 self.game.set_state(GameState(self.game))
         elif event.type == pygame.JOYBUTTONDOWN:
             print "Joystick button {} pressed.".format(event.button)
@@ -142,9 +144,8 @@ class GameState(object):
         self.msg = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!",
                              color=(0, 0, 0), background=(255, 255, 255), alpha=128)
 
-        tileset = tilemap.load_tileset(tilemap.img_data, "grass")
-        self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)
-        self.map.random_fill(tilemap.base_tileset)
+        self.map = tilemap.TileMap(resourcemanager.tiles, "grass", 80, 60, 32, 32)
+        self.map.random_fill(resourcemanager.tilesets["base_tileset"])
         self.map.add_edge_wall("brick wall mid")        
 
         self.camera = camera.Camera(self.game.width, self.game.height,
@@ -154,6 +155,7 @@ class GameState(object):
     def handle_event(self, event):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
+                resourcemanager.sounds["select"].play() 
                 self.game.set_state(TitleState(self.game))
             elif event.key == K_w:
                 self.dy -= 100

@@ -7,34 +7,24 @@ import math
 class Tile(object):
     """A tile definition.
     """
-    def __init__(self, image, rect, is_blocked=False):
+    def __init__(self, image, is_blocked=False):
         self.image = image
-        self.rect = rect
         self.is_blocked = is_blocked
-
-class TileSet(object):
-    """A tileset resource.
-    """
-    def __init__(self, tiles, default):
-        self.tiles = tiles
-        self.default = self.tiles[default]
 
 class TileMap(object):
     """A tilemap that handles display and collision with tiles.
     """
 
-    def __init__(self, tileset, w, h, tile_w, tile_h):
+    def __init__(self, tileset, default_tile, w, h, tile_w, tile_h):
         self.tileset = tileset
         self.w, self.h = w, h
         self.tile_w, self.tile_h = tile_w, tile_h
 
-        self.tiles = [[self.tileset.default
+        self.tiles = [[default_tile
                        for _ in range(h)]
                       for _ in range(w)]
 
     def random_fill(self, tile_list):
-        tile_list = [self.tileset.tiles[tile] for tile in tile_list]
-        
         for x in range(self.w):
             for y in range(self.h):
                 self.tiles[x][y] = tile_list[random.randint(0, len(tile_list)-1)]
@@ -44,7 +34,7 @@ class TileMap(object):
     def add_box(self, x, y, w, h, tile_name):
         """Add a box of a given tile to the map.
         """
-        tile = self.tileset.tiles[tile_name]
+        tile = self.tileset[tile_name]
         
         for i in range(x, x + w):
             self.tiles[i][y] = tile
@@ -57,7 +47,7 @@ class TileMap(object):
     def add_circle(self, x, y, radius, tile_name):
         """Add a filled circle.
         """
-        tile = self.tileset.tiles[tile_name]
+        tile = self.tileset[tile_name]
         
         def dist(x1, y1):
             return sqrt((x - x1) ** 2 + (y - y1) ** 2)
@@ -76,7 +66,7 @@ class TileMap(object):
         """Adds a line of the tile to the map.
         Uses bresenham's line algorithm
         """
-        tile = self.tileset.tiles[tile_name]
+        tile = self.tileset[tile_name]
         
         dx = abs(x2 - x1)
         dy = abs(y2 - y1)
@@ -188,7 +178,6 @@ class TileMap(object):
                         min((cx + cw) / self.tile_w + 1, len(self.tiles))):
             for j in xrange(max(0, cy / self.tile_h),
                             min((cy + ch) / self.tile_h + 1, len(self.tiles[i]))):
-                screen.blit(self.tiles[i][j].image,
-                            (i * self.tile_w - cx, j * self.tile_h - cy),
-                            self.tiles[i][j].rect)
+
+                self.tiles[i][j].image.draw(screen, (i * self.tile_w - cx, j * self.tile_h - cy))
 

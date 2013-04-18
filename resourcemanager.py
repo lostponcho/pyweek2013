@@ -3,8 +3,12 @@
 import pygame
 from pygame.locals import *
 
+import os
+import sys
+
 import animation
 import tilemap
+import image
 
 sounds = {}
 images = {}
@@ -33,17 +37,17 @@ sound_defs = {
 
 # Not quite image defs, need an intermediate layer here
 image_defs = {
-    "resources/testsheet.png" : {
+    "testsheet.png" : {
         "little dude" : (0, 0, 32, 32),
         "dark floor"  : (1, 0, 32, 32),
         "light floor" : (2, 0, 32, 32),
         "blue floor"  : (3, 0, 32, 32),
         "grass"       : (4, 0, 32, 32),
         },
-    "resources/crackedfloor.png" : {
+    "crackedfloor.png" : {
         "cracked floor" : (0, 0, 32, 32),
         },
-    "resources/brickwall.png" : {
+    "brickwall.png" : {
         "brick wall left"  : (0, 0, 32, 32),
         "brick wall mid"   : (1, 0, 32, 32),
         "brick wall right" : (2, 0, 32, 32),
@@ -57,9 +61,9 @@ tile_defs = {
     "blue floor"       : ("blue floor", False),
     "grass"            : ("grass", False),
     "cracked floor"    : ("cracked floor", False),
-    "brick wall left"  : ("brick wall left", False),
-    "brick wall mid"   : ("brick wall mid", False),
-    "brick wall right" : ("brick wall right", False),
+    "brick wall left"  : ("brick wall left", True),
+    "brick wall mid"   : ("brick wall mid", True),
+    "brick wall right" : ("brick wall right", True),
     }
 
 tileset_defs = {
@@ -83,25 +87,36 @@ def load_resources():
         return
     loaded_resources = True
 
+    if getattr(sys, 'frozen', None):
+        basedir = sys._MEIPASS
+    else:
+        basedir = os.path.dirname(__file__)
+
+    resourcedir = os.path.join(basedir, "resources")
+    sounddir = os.path.join(resourcedir, "sound")
+    imagedir = resourcedir
+    
     # Sounds
     for name, filename in sound_defs.iteritems():
-        sounds[name] = pygame.mixer.Sound(filename)
+        print os.path.join(sounddir, filename)
+        sounds[name] = pygame.mixer.Sound(os.path.join(sounddir, filename))
 
     # Images
-    for sheet_img, defs in image_defs.iteritems():
-        img = pygame.image.load(sheet_img).convert_alpha()
-        for name, (x, y, w, h, is_blocked) in defs.iteritems():
+    for filename, defs in image_defs.iteritems():
+        img = pygame.image.load(os.path.join(imagedir, filename)).convert_alpha()
+        for name, (x, y, w, h) in defs.iteritems():
+            # Make it easier to specify above, by having x & y in units of w & h
             x, y = x * w, y * h
-            # Replace with an image object
-            images[name] = tilemap.Tile(img, pygame.Rect(x, y, w, h), is_blocked)
+            # TODO: Replace with an image object
+            images[name] = image.Image(img, pygame.Rect(x, y, w, h))
         
     # Tiles
-    for name, defs in tile_defs.iteritems():
-        tiles[name] = [tilemap.Tile(images[img_name], for img_name,   in defs]
+    for name, (img_name, is_blocked) in tile_defs.iteritems():
+        tiles[name] = tilemap.Tile(images[img_name], is_blocked)
         
     # Tilesets
     for name, defs in tileset_defs.iteritems():
-        tilesets[name] = [images[tile_name] for tile_name in defs]
+        tilesets[name] = [tiles[tile_name] for tile_name in defs]
 
 if __name__ == '__main__':
     pygame.init()
