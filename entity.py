@@ -12,8 +12,20 @@ import random
 # Need to display with offsets (i.e. camera)
 
 
+class Player(object):
+    """Because the player will change control of entities, this wrapper object is needed.
+    It temporarily replaces the AI of the entity, putting it back when we lose control.
+    """
+    def __init__(self, world, entity):
+        self.world = world
+        self.entity = entity
+        self.ai = None
+        self.old_ai = self.entity.ai
+        self.entity.ai = self.ai
+
 class Entity(object):
-    def __init__(self, world, pos, animation, collision):
+    def __init__(self, world, pos, animation, collision, ai):
+        self.ai = None
         self.animation = animation
         self.rect = pygame.Rect(pos, (self.drawing.w, self.drawing.h))
         self.img_rect = pygame.Rect(x, y, self.drawing.w, self.drawing.h)

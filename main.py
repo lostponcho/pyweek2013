@@ -135,7 +135,7 @@ class GameState(object):
         self.cdx, self.cdy = 0, 0
 
         self.msg = text.Text(x=160, y=300, font=game.font_s, text="Avenge me!",
-                             color=(0, 0, 0), background=(255, 255, 255))
+                             color=(0, 0, 0), background=(255, 255, 255), alpha=128)
 
         tileset = tilemap.load_tileset(tilemap.img_data, "grass")
         self.map = tilemap.TileMap(tileset, 80, 60, 32, 32)

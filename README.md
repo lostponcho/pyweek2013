@@ -11,6 +11,7 @@ DONE
 ----
 
 * Collisions with tile layer (no more weird diagonal wall walking.)
+
 * Camera follows player, and tile layer
 
 TODO
@@ -40,6 +41,10 @@ TODO
   - Need queries of entity lists (i.e. nearest enemy, etc.)
     - Need this for AoE stuff as well
   - Find an openspace (for summoning) (could just be a 'if the random space is blocked, don't summon)
+  
+* Gameplay
+  - Player switching to control different entities
+  - Using abilities.
   
 * Triggered boss fight (allows for a proper ending)
   - mid way mini boss fight
