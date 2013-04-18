@@ -71,6 +71,31 @@ class TileMap(object):
         """Add walls to edge.
         """
         self.add_box(0, 0, self.w, self.h, tile_name)
+
+    def add_line(self, x1, y1, x2, y2, tile_name):
+        """Adds a line of the tile to the map.
+        Uses bresenham's line algorithm
+        """
+        tile = self.tileset.tiles[tile_name]
+        
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
+        sx = 1 if x0 < x1 else -1
+        sy = 1 if y0 < y1 else -1
+        error = dx - dy
+
+        self.tiles[x0][y0] = tile
+        while x0 != x1 or y0 != y1:
+            e2 = 2 * error
+            if e2 > -dy:
+                error -= dy
+                x0 += sx
+            
+            if e2 < dx:
+                error += dx
+                y0 += sy
+
+            self.tiles[x0][y0] = tile
         
     def collide(self, rect, dx, dy):
         """Tests for collision with the tilemap.
