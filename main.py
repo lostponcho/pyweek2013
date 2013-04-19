@@ -130,8 +130,8 @@ class GameState(object):
         
         self.x, self.y = 400, 300
         self.man = pygame.sprite.Sprite()
-        self.man.image = pygame.image.load("resources/man.png").convert_alpha()
-        self.man.rect = self.man.image.get_rect().move(self.x, self.y)        
+        self.man.image = resourcemanager.images["lich"]
+        self.man.rect = pygame.Rect(self.x, self.y, 32, 32) 
         
         self.cx, self.cy = 400, 300
         self.cross = pygame.sprite.Sprite()
@@ -226,7 +226,7 @@ class GameState(object):
             
     def display(self, screen):
         self.map.display(screen, self.camera.pos)
-        screen.blit(self.man.image, self.man.rect.move(-self.camera.pos.x, -self.camera.pos.y))
+        self.man.image.draw(screen, self.man.rect.move(-self.camera.pos.x, -self.camera.pos.y))
         screen.blit(self.cross.image, self.cross.rect)
         self.msg.display(screen)
 

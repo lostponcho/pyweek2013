@@ -37,6 +37,8 @@ sound_defs = {
 
 # Not quite image defs, need an intermediate layer here
 image_defs = {
+    "skeletonmage.png" : {"lich" : (0, 0, 32, 32),},
+    "man.png" : {"man" : (0, 0, 32, 32),},    
     "testsheet.png" : {
         "little dude" : (0, 0, 32, 32),
         "dark floor"  : (1, 0, 32, 32),
@@ -98,7 +100,6 @@ def load_resources():
     
     # Sounds
     for name, filename in sound_defs.iteritems():
-        print os.path.join(sounddir, filename)
         sounds[name] = pygame.mixer.Sound(os.path.join(sounddir, filename))
 
     # Images
