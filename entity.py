@@ -64,3 +64,19 @@ def make_small_explosion(world, pos):
                   pygame.Rect(0, 0, 64, 64),
                   ai.die_on_animation_end,
                   "Small Explosion")
+
+def make_medium_explosion(world, pos):
+    return Entity(world,
+                  pos,
+                  animation.Animation(resourcemanager.animation_states["medium explosion"]),
+                  pygame.Rect(0, 0, 64, 64),
+                  ai.die_on_animation_end,
+                  "Medium Explosion")
+
+def make_large_explosion(world, pos):
+    return Entity(world,
+                  pos,
+                  animation.Animation(resourcemanager.animation_states["large explosion"]),
+                  pygame.Rect(0, 0, 64, 64),
+                  ai.die_on_animation_end,
+                  "Large Explosion")

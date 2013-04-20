@@ -11,6 +11,7 @@ import tilemap
 import camera
 import animation
 import entity
+import random
 
 class Game(object):
     title = "Underworld Kerfuffle"
@@ -213,10 +214,22 @@ class GameState(object):
                     self.cdy = 0
         elif event.type == pygame.JOYBUTTONDOWN:
             if event.button == 6:
-                
-            print "Joystick button {} pressed.".format(event.button)
-            self.entities.append(entity.make_small_explosion(self.game,
-                                                             Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                resourcemanager.sounds["select"].play()
+                self.game.set_state(PauseState(self.game, self))
+            else:
+                print "Joystick button {} pressed.".format(event.button)
+                explosion_size = random.randint(0, 2)
+                if explosion_size == 0:
+                    self.entities.append(entity.make_small_explosion(self.game,
+                                                                     Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                elif explosion_size == 1:
+                    self.entities.append(entity.make_medium_explosion(self.game,
+                                                                     Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                else:
+                    self.entities.append(entity.make_large_explosion(self.game,
+                                                                      Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                resourcemanager.sounds["explosion"].play()
+
             
         elif event.type == pygame.JOYBUTTONUP:
             print "Joystick button released."                
@@ -270,7 +283,11 @@ class PauseState(object):
             if event.key == K_ESCAPE:
                 resourcemanager.sounds["select"].play()                
                 self.game.set_state(self.parent)
-
+        elif event.type == pygame.JOYBUTTONDOWN:
+            if event.button == 6:
+                resourcemanager.sounds["select"].play()                
+                self.game.set_state(self.parent)
+                
     def update(self, tick):
         pass
     
