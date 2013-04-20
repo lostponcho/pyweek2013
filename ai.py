@@ -1,4 +1,7 @@
+import resourcemanager
+
 import random
+
 
 # Behaviours:
 
@@ -45,6 +48,34 @@ def die_on_animation_end(entity):
 def random_movement(entity):
     entity.dpos.x = random.randint(-8, 8) 
     entity.dpos.y = random.randint(-8, 8)
+
+    # TODO: replace this with some state thing? Animation tree?
+    if abs(entity.dpos.x) > abs(entity.dpos.y):
+        if entity.dpos.x > 0:
+            entity.animation.change(resourcemanager.animation_states["spider right"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["spider left"])
+    else:
+        if entity.dpos.y > 0:
+            entity.animation.change(resourcemanager.animation_states["spider down"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["spider up"])
+            
+def random_movement(entity):
+    entity.dpos.x = random.randint(-8, 8) 
+    entity.dpos.y = random.randint(-8, 8)
+
+    # TODO: replace this with some state thing? Animation tree?
+    if abs(entity.dpos.x) > abs(entity.dpos.y):
+        if entity.dpos.x > 0:
+            entity.animation.change(resourcemanager.animation_states["spider right"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["spider left"])
+    else:
+        if entity.dpos.y > 0:
+            entity.animation.change(resourcemanager.animation_states["spider down"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["spider up"])
         
 class Sequence(object):
     """Stores a sequence of actions + tests that consitute a behaviour.

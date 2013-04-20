@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 
+import resourcemanager
+
 import random
 import math
 
@@ -86,6 +88,21 @@ class TileMap(object):
                 y0 += sy
 
             self.tiles[x0][y0] = tile
+
+    def fix_brick_walls(self):
+        """After generation, this pass fixes up how walls connect to each other.
+        """
+        bricks = resourcemanager.tilesets["brick_tiles"]
+        
+        for i in xrange(0, self.w):
+            for j in xrange(0, self.h):
+                if self.tiles[i][j] in bricks:
+                    above = 0 if j == 0 else int(not self.tiles[i][j-1] in bricks)
+                    below = 0 if j == self.h-1 else int(not self.tiles[i][j+1] in bricks)
+                    left  = 0 if i == 0 else int(not self.tiles[i-1][j] in bricks)
+                    right = 0 if i == self.w-1 else int(not self.tiles[i+1][j] in bricks)
+
+                    self.tiles[i][j] = bricks[above * 8 + right * 4 + below * 2 + left]
         
     def collide(self, rect, dx, dy):
         """Tests for collision with the tilemap.

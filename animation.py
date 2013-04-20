@@ -20,6 +20,11 @@ class Animation(object):
         self.state = animation_state
         self.tick = 0
 
+    def change(self, new_state):
+        if new_state != self.state:
+            self.state = new_state
+            self.tick = 0
+
     def update(self):
         self.tick += 1
         if self.state is not None and self.tick >= len(self.state.images):

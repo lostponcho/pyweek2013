@@ -26,17 +26,18 @@ DONE
 * Entities
   - Separate sprites into collision and drawing sprites (Pygame uses the same Rect for both, which sucks)
 
+* Level Generation
+  - Tile fixing according to rules (for wallsets and door direction, etc.)
+    - Generation should just use a basic member of each wall type, and this pass would fix the edges
+
+
 TODO
 ----
-
 
 * Entity Lists based on collision/update type
 
 * Level Generation
-  - More tools:
-    - Generate from a tree structure (containing points where the areas should be generated)
-  - Tile fixing according to rules (for wallsets and door direction, etc.)
-    - Generation should just use a basic member of each wall type, and this pass would fix the edges
+  - Generate from a tree structure (containing points where the areas should be generated)
   
 * Terrain manipulation
   - Digging dirt
@@ -50,7 +51,7 @@ TODO
   
 * Gameplay
   - Player switching to control different entities
-  - Using abilities.
+  - Shooting
   
 * Triggered boss fight (allows for a proper ending)
   - mid way mini boss fight

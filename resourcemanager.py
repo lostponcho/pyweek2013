@@ -40,7 +40,6 @@ sound_defs = {
 
 # Not quite image defs, need an intermediate layer here
 image_defs = {
-    "skeletonmage.png" : {"lich" : (0, 0, 31, 31),},
     "man.png" : {"man" : (0, 0, 36, 36),},
     "crosshair.png" : {"crosshair" : (0, 0, 36, 36),},        
     "testsheet.png" : {
@@ -54,9 +53,22 @@ image_defs = {
         "cracked floor" : (0, 0, 32, 32),
         },
     "brickwall.png" : {
-        "brick wall left"  : (0, 0, 32, 32),
-        "brick wall mid"   : (1, 0, 32, 32),
-        "brick wall right" : (2, 0, 32, 32),
+        "brick wall 1011" : (0, 0, 32, 32),
+        "brick wall 1010" : (1, 0, 32, 32),
+        "brick wall 1110" : (2, 0, 32, 32),
+        "brick wall 0000" : (3, 0, 32, 32),
+        "brick wall 1111" : (0, 1, 32, 32),
+        "brick wall 0111" : (1, 1, 32, 32),
+        "brick wall 1101" : (2, 1, 32, 32),
+        "brick wall 0101" : (3, 1, 32, 32),
+        "brick wall 1001" : (0, 2, 32, 32),
+        "brick wall 1000" : (1, 2, 32, 32),
+        "brick wall 1100" : (2, 2, 32, 32),
+        "brick wall 0100" : (3, 2, 32, 32),
+        "brick wall 0011" : (0, 3, 32, 32),
+        "brick wall 0010" : (1, 3, 32, 32),
+        "brick wall 0110" : (2, 3, 32, 32),
+        "brick wall 0001" : (3, 3, 32, 32),
         },
     "explosion27.png" : {
         "explosion small 1" : (1, 0, 64, 64),
@@ -124,11 +136,24 @@ image_defs = {
         "spider left 2" : (2, 3, 32, 32),
         "spider left 3" : (3, 3, 32, 32),
         },
+    "skeletonmage.png" : {
+        "lich down fire" : (0, 0, 32, 32),
+        "lich down 0" : (1, 0, 32, 32),
+        "lich down 1" : (2, 0, 32, 32),
+        "lich down 2" : (3, 0, 32, 32),
+        "lich up fire" : (1, 0, 32, 32),
+        "lich up 0" : (1, 1, 32, 32),
+        "lich right fire" : (2, 0, 32, 32),
+        "lich right 0" : (2, 1, 32, 32),
+        "lich left fire" : (2, 2, 32, 32),
+        "lich left 0" : (2, 3, 32, 32),
+        },
     }
 
 # Animations are broken up into some parts
 # First the basic lists of images
 animation_list_defs = {
+    ### EXPLOSIONS ###
     "explosion small" : [
         "explosion small 1",
         "explosion small 2",
@@ -177,6 +202,8 @@ animation_list_defs = {
         "explosion large 13",
         "explosion large 14",
         ],
+
+    ### SPIDER ###    
     "spider up" : [
         "spider up 0",
         "spider up 1",
@@ -201,6 +228,46 @@ animation_list_defs = {
         "spider left 2",
         "spider left 3",
         ],
+
+    ### LICH ###
+    "lich down fire" : [
+        "lich down fire",
+        "lich down fire",
+        "lich down fire",
+        "lich down fire",
+        ],
+    "lich down" : [
+        "lich down 0",
+        "lich down 1",
+        "lich down 2",
+        ],
+    "lich up fire" : [
+        "lich up fire",
+        "lich up fire",
+        "lich up fire",
+        "lich up fire",
+        ],
+    "lich up" : [
+        "lich up 0",
+        ],
+    "lich right fire" : [
+        "lich right fire",
+        "lich right fire",
+        "lich right fire",
+        "lich right fire",
+        ],
+    "lich right" : [
+        "lich right 0",
+        ],
+    "lich left fire" : [
+        "lich left fire",
+        "lich left fire",
+        "lich left fire",
+        "lich left fire",
+        ],
+    "lich left" : [
+        "lich left 0",
+        ],
     }
 
 # Second the state definitions (a list reference, and a next state)
@@ -212,6 +279,15 @@ animation_state_defs = {
     "spider down" : ("spider down", "spider down"),
     "spider right" : ("spider right", "spider right"),
     "spider left" : ("spider left", "spider left"),
+
+    "lich down fire" : ("lich down fire", "lich down"),
+    "lich down" : ("lich down", "lich down"),
+    "lich up fire" : ("lich up fire", "lich up"),
+    "lich up" : ("lich up", "lich up"),
+    "lich right fire" : ("lich right fire", "lich right"),
+    "lich right" : ("lich right", "lich right"),
+    "lich left fire" : ("lich left fire", "lich left"),
+    "lich left" : ("lich left", "lich left"),
     }
 
 # Tiles = (image name, is_blocked)
@@ -221,9 +297,22 @@ tile_defs = {
     "blue floor"       : ("blue floor", False),
     "grass"            : ("grass", False),
     "cracked floor"    : ("cracked floor", False),
-    "brick wall left"  : ("brick wall left", True),
-    "brick wall mid"   : ("brick wall mid", True),
-    "brick wall right" : ("brick wall right", True),
+    "brick wall 1011"  : ("brick wall 1011", True),
+    "brick wall 1010"  : ("brick wall 1010", True),
+    "brick wall 1110"  : ("brick wall 1110", True),
+    "brick wall 0000"  : ("brick wall 0000", True),
+    "brick wall 1111"  : ("brick wall 1111", True),
+    "brick wall 0111"  : ("brick wall 0111", True),
+    "brick wall 1101"  : ("brick wall 1101", True),
+    "brick wall 0101"  : ("brick wall 0101", True),
+    "brick wall 1001"  : ("brick wall 1001", True),
+    "brick wall 1000"  : ("brick wall 1000", True),
+    "brick wall 1100"  : ("brick wall 1100", True),
+    "brick wall 0100"  : ("brick wall 0100", True),
+    "brick wall 0011"  : ("brick wall 0011", True),
+    "brick wall 0010"  : ("brick wall 0010", True),
+    "brick wall 0110"  : ("brick wall 0110", True),
+    "brick wall 0001"  : ("brick wall 0001", True),
     }
 
 tileset_defs = {
@@ -233,7 +322,25 @@ tileset_defs = {
         "blue floor",
         "grass",
         "cracked floor",
-        "brick wall mid",
+        "brick wall 0000",
+        ],
+    "brick_tiles" : [
+        "brick wall 0000",
+        "brick wall 0001",
+        "brick wall 0010",
+        "brick wall 0011",
+        "brick wall 0100",
+        "brick wall 0101",        
+        "brick wall 0110",
+        "brick wall 0111",
+        "brick wall 1000",
+        "brick wall 1001",
+        "brick wall 1010",
+        "brick wall 1011",
+        "brick wall 1100",
+        "brick wall 1101",
+        "brick wall 1110",
+        "brick wall 1111",
         ],
     }
 
@@ -274,7 +381,6 @@ def load_resources():
         for name, (x, y, w, h) in defs.iteritems():
             # Make it easier to specify above, by having x & y in units of w & h
             x, y = x * w, y * h
-            # TODO: Replace with an image object
             images[name] = image.Image(img, pygame.Rect(x, y, w, h))
 
     # Animations

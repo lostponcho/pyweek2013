@@ -22,9 +22,13 @@ class Player(object):
     def __init__(self, world, entity):
         self.world = world
         self.entity = entity
-        self.ai = None
         self.old_ai = self.entity.ai
-        self.entity.ai = self.ai
+        self.entity.ai = self
+        self.dx, self.dy = 0, 0
+
+    def __call__(self, entity):
+        entity.move(self.dx, self.dy)
+        
 
 class Entity(object):
     def __init__(self, world, pos, animation, collision, ai, name="Unnamed"):
@@ -41,9 +45,13 @@ class Entity(object):
 
     def animation_update(self):
         self.animation.update()
+
+    def move(self, dx, dy):
+        self.dpos.x += dx
+        self.dpos.y += dy
         
-    def move_update(self):
-        dx, dy = self.world.map.collide(self.pos, self.dpos.x, self.dpos.y)
+    def move_update(self, tick):
+        dx, dy = self.world.map.collide(self.pos, self.dpos.x * tick, self.dpos.y * tick)
         self.pos.x += dx
         self.pos.y += dy
         self.dpos.x = 0
@@ -87,5 +95,13 @@ def make_spider(world, x, y):
                   Rect(0, 0, 32, 32),
                   ai.random_movement,
                   "Spider")
+
+def make_lich(world, x, y):
+    return Entity(world,
+                  Rect(x, y, 31, 31),                  
+                  animation.Animation(resourcemanager.animation_states["lich down"]),
+                  Rect(0, 0, 32, 32),
+                  None,
+                  "Lich")
 
     
