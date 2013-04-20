@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 
+import resourcemanager
 import animation
 import random
 
@@ -28,16 +29,17 @@ class Entity(object):
         """All components should be optional.
         Track our entries in the world lists.
         """
-        self.ai = None
+        self.ai = ai
         self.animation = animation
-        self.rect = pygame.Rect(pos, (self.drawing.w, self.drawing.h))
-        self.img_rect = pygame.Rect(x, y, self.drawing.w, self.drawing.h)
-        self.drawing = drawing
+        self.pos = pos.copy()
+        self.dpos = pygame.Rect(0,0,0,0) 
 
     def move(self, dx, dy):
         self.rect.move(dx, dy)
-        self.img_rect(dx, dy)
 
+    def animation_update(self):
+        self.animation.update()
+        
     def move_update(self):
         self.pos.x += self.dpos.x
         self.pos.y += self.dpos.y
@@ -48,6 +50,13 @@ class Entity(object):
         self.dpos.x = random.randint(-10, 10) 
         self.dpos.y = random.randint(-10, 10) 
 
-    def draw(self, surface, camera, tick):
-        self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y), tick)
+    def draw(self, surface, camera):
+        self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y))
         
+
+def make_small_explosion(world, pos):
+    return Entity(world,
+                  pos,
+                  animation.Animation(resourcemanager.animation_states["small explosion"]),
+                  pygame.Rect(0, 0, 64, 64),
+                  None)

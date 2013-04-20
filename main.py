@@ -9,6 +9,8 @@ import resourcemanager
 import text
 import tilemap
 import camera
+import animation
+import entity
 
 class Game(object):
     title = "Underworld Kerfuffle"
@@ -131,12 +133,12 @@ class GameState(object):
         self.x, self.y = 400, 300
         self.man = pygame.sprite.Sprite()
         self.man.image = resourcemanager.images["lich"]
-        self.man.rect = pygame.Rect(self.x, self.y, 32, 32) 
+        self.man.rect = self.man.image.rect.move(self.x, self.y)
         
         self.cx, self.cy = 400, 300
         self.cross = pygame.sprite.Sprite()
-        self.cross.image = pygame.image.load("resources/crosshair.png").convert_alpha()
-        self.cross.rect = self.cross.image.get_rect().move(self.cx, self.cy)
+        self.cross.image = resourcemanager.images["crosshair"]        
+        self.cross.rect = self.cross.image.rect.move(self.cx, self.cy)
         
         self.dx, self.dy = 0, 0
         self.cdx, self.cdy = 0, 0
@@ -151,6 +153,8 @@ class GameState(object):
         self.camera = camera.Camera(self.game.width, self.game.height,
                                     self.map.w * self.map.tile_w,
                                     self.map.h * self.map.tile_h)
+
+        self.explosion = entity.make_small_explosion(self.game, pygame.Rect(80, 80, 0, 0))
         
     def handle_event(self, event):
         if event.type == KEYDOWN:
@@ -223,12 +227,15 @@ class GameState(object):
         
         self.cross.rect.x += self.cdx * tick
         self.cross.rect.y += self.cdy * tick
+        self.explosion.move_update()
+        self.explosion.animation_update()        
             
     def display(self, screen):
         self.map.display(screen, self.camera.pos)
         self.man.image.draw(screen, self.man.rect.move(-self.camera.pos.x, -self.camera.pos.y))
-        screen.blit(self.cross.image, self.cross.rect)
+        self.cross.image.draw(screen, self.cross.rect.move(-self.camera.pos.x, -self.camera.pos.y))
         self.msg.display(screen)
+        self.explosion.draw(screen, self.camera.pos)
 
 class PauseState(object):
     def __init__(self, game, parent):

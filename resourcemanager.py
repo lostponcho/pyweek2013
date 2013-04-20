@@ -12,7 +12,8 @@ import image
 
 sounds = {}
 images = {}
-animations = {}
+animation_lists = {}
+animation_states = {}
 tiles = {}
 tilesets = {}
 
@@ -37,8 +38,9 @@ sound_defs = {
 
 # Not quite image defs, need an intermediate layer here
 image_defs = {
-    "skeletonmage.png" : {"lich" : (0, 0, 32, 32),},
-    "man.png" : {"man" : (0, 0, 32, 32),},    
+    "skeletonmage.png" : {"lich" : (0, 0, 31, 31),},
+    "man.png" : {"man" : (0, 0, 36, 36),},
+    "crosshair.png" : {"crosshair" : (0, 0, 36, 36),},        
     "testsheet.png" : {
         "little dude" : (0, 0, 32, 32),
         "dark floor"  : (1, 0, 32, 32),
@@ -53,7 +55,49 @@ image_defs = {
         "brick wall left"  : (0, 0, 32, 32),
         "brick wall mid"   : (1, 0, 32, 32),
         "brick wall right" : (2, 0, 32, 32),
-        }    
+        },
+    "explosion27.png" : {
+        "explosion small 1" : (1, 0, 64, 64),
+        "explosion small 2" : (2, 0, 64, 64),
+        "explosion small 3" : (3, 0, 64, 64),
+        "explosion small 4" : (0, 1, 64, 64),
+        "explosion small 5" : (1, 1, 64, 64),
+        "explosion small 6" : (2, 1, 64, 64),
+        "explosion small 7" : (3, 1, 64, 64),        
+        "explosion small 8" : (0, 2, 64, 64),
+        "explosion small 9" : (1, 2, 64, 64),
+        "explosion small 10" : (2, 2, 64, 64),
+        "explosion small 11" : (3, 2, 64, 64),
+        "explosion small 12" : (0, 3, 64, 64),
+        "explosion small 13" : (1, 3, 64, 64),
+        "explosion small 14" : (2, 3, 64, 64),
+        },
+    }
+
+# Animations are broken up into some parts
+# First the basic lists of images
+animation_list_defs = {
+    "explosion small" : [
+        "explosion small 1",
+        "explosion small 2",
+        "explosion small 3",
+        "explosion small 4",
+        "explosion small 5",
+        "explosion small 6",
+        "explosion small 7",
+        "explosion small 8",
+        "explosion small 9",
+        "explosion small 10",
+        "explosion small 11",
+        "explosion small 12",
+        "explosion small 13",
+        "explosion small 14",
+        ],
+    }
+
+# Second the state definitions (a list reference, and a next state)
+animation_state_defs = {
+    "small explosion" : ("explosion small", None),
     }
 
 # Tiles = (image name, is_blocked)
@@ -110,7 +154,20 @@ def load_resources():
             x, y = x * w, y * h
             # TODO: Replace with an image object
             images[name] = image.Image(img, pygame.Rect(x, y, w, h))
-        
+
+    # Animations
+    for name, img_list in animation_list_defs.iteritems():
+        animation_lists[name] = [images[img_name] for img_name in img_list]
+
+    # Animations
+    for name, (list_name, next_state) in animation_state_defs.iteritems():
+        animation_states[name] = animation.Animation_State(animation_lists[list_name], next_state)
+
+    # Fix up for animation_states (So we can handle recursive animation_state transitions)
+    for animation_state in animation_states.itervalues():
+        if animation_state.next_state is not None:
+            animation_state.next_state = animation_states[animation_state.next_state]
+
     # Tiles
     for name, (img_name, is_blocked) in tile_defs.iteritems():
         tiles[name] = tilemap.Tile(images[img_name], is_blocked)
@@ -123,6 +180,3 @@ if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((10,10))
     load_resources()
-
-
-        
