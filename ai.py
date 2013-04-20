@@ -36,6 +36,10 @@
 # log relative scores of behaviours, and chosen behaviour + entity ID + other events that happen to that entity
 # chosen action vs. chosen behaviour
 
+def die_on_animation_end():
+    
+
+
 class Sequence(object):
     """Stores a sequence of actions + tests that consitute a behaviour.
     """

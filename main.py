@@ -154,7 +154,9 @@ class GameState(object):
                                     self.map.w * self.map.tile_w,
                                     self.map.h * self.map.tile_h)
 
-        self.explosion = entity.make_small_explosion(self.game, pygame.Rect(80, 80, 0, 0))
+        self.entities = []
+
+        self.entities.append(entity.make_small_explosion(self.game, pygame.Rect(80, 80, 0, 0)))
         
     def handle_event(self, event):
         if event.type == KEYDOWN:
@@ -227,15 +229,24 @@ class GameState(object):
         
         self.cross.rect.x += self.cdx * tick
         self.cross.rect.y += self.cdy * tick
-        self.explosion.move_update()
-        self.explosion.animation_update()        
+
+        for entity in self.entities:
+            entity.move_update()
+            entity.animation_update()
+            entity.ai_update()                        
+        
+        for i in xrange(len(self.entities) - 1, -1, -1):
+            if self.entities[i].remove:
+                del self.entities[i]
             
     def display(self, screen):
         self.map.display(screen, self.camera.pos)
         self.man.image.draw(screen, self.man.rect.move(-self.camera.pos.x, -self.camera.pos.y))
         self.cross.image.draw(screen, self.cross.rect.move(-self.camera.pos.x, -self.camera.pos.y))
         self.msg.display(screen)
-        self.explosion.draw(screen, self.camera.pos)
+
+        for entity in self.entities:
+            entity.draw(screen, self.camera.pos)
 
 class PauseState(object):
     def __init__(self, game, parent):

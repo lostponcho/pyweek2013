@@ -32,7 +32,8 @@ class Entity(object):
         self.ai = ai
         self.animation = animation
         self.pos = pos.copy()
-        self.dpos = pygame.Rect(0,0,0,0) 
+        self.dpos = pygame.Rect(0,0,0,0)
+        self.remove = False
 
     def move(self, dx, dy):
         self.rect.move(dx, dy)
@@ -52,7 +53,6 @@ class Entity(object):
 
     def draw(self, surface, camera):
         self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y))
-        
 
 def make_small_explosion(world, pos):
     return Entity(world,
