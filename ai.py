@@ -1,3 +1,5 @@
+import random
+
 # Behaviours:
 
 # - Behaviour trees don't really allow the mixing of behaviours
@@ -36,10 +38,14 @@
 # log relative scores of behaviours, and chosen behaviour + entity ID + other events that happen to that entity
 # chosen action vs. chosen behaviour
 
-def die_on_animation_end():
-    
+def die_on_animation_end(entity):
+    if entity.animation.is_done():
+        entity.remove = True
 
-
+def random_movement(entity):
+    entity.dpos.x = random.randint(-10, 10) 
+    entity.dpos.y = random.randint(-10, 10)
+        
 class Sequence(object):
     """Stores a sequence of actions + tests that consitute a behaviour.
     """

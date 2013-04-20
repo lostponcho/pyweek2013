@@ -3,6 +3,8 @@ from pygame.locals import *
 
 import resourcemanager
 import animation
+import ai
+
 import random
 
 # Collision rects should be floor rects - to work with the wall images
@@ -48,8 +50,8 @@ class Entity(object):
         self.dpos.y = 0
 
     def ai_update(self):
-        self.dpos.x = random.randint(-10, 10) 
-        self.dpos.y = random.randint(-10, 10) 
+        if self.ai:
+            self.ai(self)
 
     def draw(self, surface, camera):
         self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y))
@@ -59,4 +61,4 @@ def make_small_explosion(world, pos):
                   pos,
                   animation.Animation(resourcemanager.animation_states["small explosion"]),
                   pygame.Rect(0, 0, 64, 64),
-                  None)
+                  ai.die_on_animation_end)
