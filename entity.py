@@ -31,7 +31,7 @@ class Player(object):
         
 
 class Entity(object):
-    def __init__(self, world, pos, animation, collision, ai, name="Unnamed"):
+    def __init__(self, world, pos, animation, collision, ai, name="Unnamed", speed=120):
         """All components should be optional.
         Track our entries in the world lists.
         """
@@ -42,6 +42,7 @@ class Entity(object):
         self.dpos = Rect(0,0,0,0)
         self.remove = False
         self.name = name
+        self.speed = speed
 
     def animation_update(self):
         self.animation.update()
