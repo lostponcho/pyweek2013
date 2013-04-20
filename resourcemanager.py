@@ -10,6 +10,8 @@ import animation
 import tilemap
 import image
 
+fontpath = None
+
 sounds = {}
 images = {}
 animation_lists = {}
@@ -200,13 +202,21 @@ def load_resources():
     loaded_resources = True
 
     if getattr(sys, 'frozen', None):
-        basedir = sys._MEIPASS
+        try:
+            # Pyinstaller
+            basedir = sys._MEIPASS
+        except:
+            # Py2exe
+            basedir = '.'
     else:
         basedir = os.path.dirname(__file__)
 
     resourcedir = os.path.join(basedir, "resources")
     sounddir = os.path.join(resourcedir, "sound")
     imagedir = resourcedir
+    fontdir = os.path.join(resourcedir, "font")
+    global fontpath
+    fontpath = os.path.join(fontdir, "C64_Pro_Mono_v1.0-STYLE.ttf")
     
     # Sounds
     for name, filename in sound_defs.iteritems():

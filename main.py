@@ -37,17 +37,17 @@ class Game(object):
                 joy.init()
                 print i, joy.get_name()
                 self.gpads.append(joy)
-            
-        self.font_s = pygame.font.Font("resources/font/C64_Pro_Mono_v1.0-STYLE.ttf", 10)
-        self.font_m = pygame.font.Font("resources/font/C64_Pro_Mono_v1.0-STYLE.ttf", 18)
-        self.font_l = pygame.font.Font("resources/font/C64_Pro_Mono_v1.0-STYLE.ttf", 32)        
-            
+                
         self.clock = pygame.time.Clock()
 
         self.screen = pygame.display.set_mode((self.width, self.height))
         
         resourcemanager.load_resources()
-        
+
+        self.font_s = pygame.font.Font(resourcemanager.fontpath, 10)
+        self.font_m = pygame.font.Font(resourcemanager.fontpath, 18)
+        self.font_l = pygame.font.Font(resourcemanager.fontpath, 32)        
+            
         pygame.display.set_caption(self.title)
 
         self.state = state(self)

@@ -17,27 +17,30 @@ DONE
 
 * Camera follows player, and tile layer
 
+* Store entities in data structures
+
+* Better API for drawing to the map
+  - Lines (such that they will block movement)
+  - mini tilesets (like floor tiles, themes, wall tiles...) to generate a circle of tiles from a mini tileset  
+
+* Entities
+  - Separate sprites into collision and drawing sprites (Pygame uses the same Rect for both, which sucks)
+
 TODO
 ----
 
-* Store entities in data structures
-  - Lists based on collision/update type
+
+* Entity Lists based on collision/update type
 
 * Level Generation
-  - Better API for drawing to the map
   - More tools:
-    - Lines (such that they will block movement)
     - Generate from a tree structure (containing points where the areas should be generated)
-    - mini tilesets (like floor tiles, themes, wall tiles...) to generate a circle of tiles from a mini tileset
   - Tile fixing according to rules (for wallsets and door direction, etc.)
     - Generation should just use a basic member of each wall type, and this pass would fix the edges
   
 * Terrain manipulation
   - Digging dirt
   - Opening/Closing doors
-  
-* Entities
-  - Separate sprites into collision and drawing sprites (Pygame uses the same Rect for both, which sucks)
   
 * AI
   - Currently just a draft of behaviours
