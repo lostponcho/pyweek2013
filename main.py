@@ -212,7 +212,12 @@ class GameState(object):
                 else:
                     self.cdy = 0
         elif event.type == pygame.JOYBUTTONDOWN:
-            print "Joystick button pressed."
+            if event.button == 6:
+                
+            print "Joystick button {} pressed.".format(event.button)
+            self.entities.append(entity.make_small_explosion(self.game,
+                                                             Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+            
         elif event.type == pygame.JOYBUTTONUP:
             print "Joystick button released."                
         elif event.type == JOYBALLMOTION:
@@ -256,6 +261,9 @@ class PauseState(object):
         self.text = text.Text(font=game.font_l, text="paused", color=(0, 0, 0), background=(255, 255, 255))
         self.text.center_x(0, self.game.width)
         self.text.center_y(0, self.game.height)
+
+        # For debugging
+        print "Entities:", ", ".join("<{}>".format(entity.name) for entity in self.parent.entities)
         
     def handle_event(self, event):
         if event.type == KEYDOWN:

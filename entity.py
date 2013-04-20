@@ -27,7 +27,7 @@ class Player(object):
         self.entity.ai = self.ai
 
 class Entity(object):
-    def __init__(self, world, pos, animation, collision, ai):
+    def __init__(self, world, pos, animation, collision, ai, name="Unnamed"):
         """All components should be optional.
         Track our entries in the world lists.
         """
@@ -36,6 +36,7 @@ class Entity(object):
         self.pos = pos.copy()
         self.dpos = pygame.Rect(0,0,0,0)
         self.remove = False
+        self.name = name
 
     def move(self, dx, dy):
         self.rect.move(dx, dy)
@@ -61,4 +62,5 @@ def make_small_explosion(world, pos):
                   pos,
                   animation.Animation(resourcemanager.animation_states["small explosion"]),
                   pygame.Rect(0, 0, 64, 64),
-                  ai.die_on_animation_end)
+                  ai.die_on_animation_end,
+                  "Small Explosion")
