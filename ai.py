@@ -43,8 +43,8 @@ def die_on_animation_end(entity):
         entity.remove = True
 
 def random_movement(entity):
-    entity.dpos.x = random.randint(-10, 10) 
-    entity.dpos.y = random.randint(-10, 10)
+    entity.dpos.x = random.randint(-8, 8) 
+    entity.dpos.y = random.randint(-8, 8)
         
 class Sequence(object):
     """Stores a sequence of actions + tests that consitute a behaviour.

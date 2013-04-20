@@ -106,6 +106,24 @@ image_defs = {
         "explosion large 13" : (1, 3, 64, 64),
         "explosion large 14" : (2, 3, 64, 64),
         },
+    "4legged.png" : {
+        "spider down 0" : (0, 0, 32, 32),
+        "spider down 1" : (1, 0, 32, 32),
+        "spider down 2" : (2, 0, 32, 32),
+        "spider down 3" : (3, 0, 32, 32),
+        "spider up 0" : (0, 1, 32, 32),
+        "spider up 1" : (1, 1, 32, 32),
+        "spider up 2" : (2, 1, 32, 32),
+        "spider up 3" : (3, 1, 32, 32),
+        "spider right 0" : (0, 2, 32, 32),
+        "spider right 1" : (1, 2, 32, 32),
+        "spider right 2" : (2, 2, 32, 32),
+        "spider right 3" : (3, 2, 32, 32),
+        "spider left 0" : (0, 3, 32, 32),
+        "spider left 1" : (1, 3, 32, 32),
+        "spider left 2" : (2, 3, 32, 32),
+        "spider left 3" : (3, 3, 32, 32),
+        },
     }
 
 # Animations are broken up into some parts
@@ -159,13 +177,41 @@ animation_list_defs = {
         "explosion large 13",
         "explosion large 14",
         ],
+    "spider up" : [
+        "spider up 0",
+        "spider up 1",
+        "spider up 2",
+        "spider up 3",
+        ],
+    "spider down" : [
+        "spider down 0",
+        "spider down 1",
+        "spider down 2",
+        "spider down 3",
+        ],
+    "spider right" : [
+        "spider right 0",
+        "spider right 1",
+        "spider right 2",
+        "spider right 3",
+        ],
+    "spider left" : [
+        "spider left 0",
+        "spider left 1",
+        "spider left 2",
+        "spider left 3",
+        ],
     }
 
 # Second the state definitions (a list reference, and a next state)
 animation_state_defs = {
     "small explosion" : ("explosion small", None),
     "medium explosion" : ("explosion medium", None),
-    "large explosion" : ("explosion large", None),    
+    "large explosion" : ("explosion large", None),
+    "spider up" : ("spider up", "spider up"),
+    "spider down" : ("spider down", "spider down"),
+    "spider right" : ("spider right", "spider right"),
+    "spider left" : ("spider left", "spider left"),
     }
 
 # Tiles = (image name, is_blocked)

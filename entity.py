@@ -31,6 +31,7 @@ class Entity(object):
         """All components should be optional.
         Track our entries in the world lists.
         """
+        self.world = world
         self.ai = ai
         self.animation = animation
         self.pos = pos.copy()
@@ -38,15 +39,13 @@ class Entity(object):
         self.remove = False
         self.name = name
 
-    def move(self, dx, dy):
-        self.rect.move(dx, dy)
-
     def animation_update(self):
         self.animation.update()
         
     def move_update(self):
-        self.pos.x += self.dpos.x
-        self.pos.y += self.dpos.y
+        dx, dy = self.world.map.collide(self.pos, self.dpos.x, self.dpos.y)
+        self.pos.x += dx
+        self.pos.y += dy
         self.dpos.x = 0
         self.dpos.y = 0
 
@@ -57,26 +56,36 @@ class Entity(object):
     def draw(self, surface, camera):
         self.animation.draw(surface, (self.pos.x - camera.x, self.pos.y - camera.y))
 
-def make_small_explosion(world, pos):
+def make_small_explosion(world, x, y):
     return Entity(world,
-                  pos,
+                  Rect(x, y, 64, 64),                                                      
                   animation.Animation(resourcemanager.animation_states["small explosion"]),
                   pygame.Rect(0, 0, 64, 64),
                   ai.die_on_animation_end,
                   "Small Explosion")
 
-def make_medium_explosion(world, pos):
+def make_medium_explosion(world, x, y):
     return Entity(world,
-                  pos,
+                  Rect(x, y, 64, 64),                                    
                   animation.Animation(resourcemanager.animation_states["medium explosion"]),
                   pygame.Rect(0, 0, 64, 64),
                   ai.die_on_animation_end,
                   "Medium Explosion")
 
-def make_large_explosion(world, pos):
+def make_large_explosion(world, x, y):
     return Entity(world,
-                  pos,
+                  Rect(x, y, 64, 64),                  
                   animation.Animation(resourcemanager.animation_states["large explosion"]),
-                  pygame.Rect(0, 0, 64, 64),
+                  Rect(0, 0, 64, 64),
                   ai.die_on_animation_end,
                   "Large Explosion")
+
+def make_spider(world, x, y):
+    return Entity(world,
+                  Rect(x, y, 32, 32),                  
+                  animation.Animation(resourcemanager.animation_states["spider down"]),
+                  Rect(0, 0, 32, 32),
+                  ai.random_movement,
+                  "Spider")
+
+    

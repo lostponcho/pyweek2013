@@ -157,7 +157,6 @@ class GameState(object):
 
         self.entities = []
 
-        self.entities.append(entity.make_small_explosion(self.game, pygame.Rect(80, 80, 0, 0)))
         
     def handle_event(self, event):
         if event.type == KEYDOWN:
@@ -213,21 +212,23 @@ class GameState(object):
                 else:
                     self.cdy = 0
         elif event.type == pygame.JOYBUTTONDOWN:
-            if event.button == 6:
+            if event.button == 0:
+                self.entities.append(entity.make_spider(self, self.man.rect.x, self.man.rect.y))
+            elif event.button == 6:
                 resourcemanager.sounds["select"].play()
                 self.game.set_state(PauseState(self.game, self))
             else:
                 print "Joystick button {} pressed.".format(event.button)
                 explosion_size = random.randint(0, 2)
                 if explosion_size == 0:
-                    self.entities.append(entity.make_small_explosion(self.game,
-                                                                     Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                    self.entities.append(entity.make_small_explosion(self,
+                                                                     self.man.rect.x, self.man.rect.y))
                 elif explosion_size == 1:
-                    self.entities.append(entity.make_medium_explosion(self.game,
-                                                                     Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                    self.entities.append(entity.make_medium_explosion(self,
+                                                                     self.man.rect.x, self.man.rect.y))        
                 else:
-                    self.entities.append(entity.make_large_explosion(self.game,
-                                                                      Rect(self.man.rect.x, self.man.rect.y, 0, 0)))
+                    self.entities.append(entity.make_large_explosion(self,
+                                                                     self.man.rect.x, self.man.rect.y))
                 resourcemanager.sounds["explosion"].play()
 
             
