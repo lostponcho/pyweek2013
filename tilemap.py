@@ -46,13 +46,21 @@ class TileMap(object):
             self.tiles[x][i] = tile
             self.tiles[x + w - 1][i] = tile
 
+    def add_filled_box(self, x, y, w, h, tile_name):
+        """Add a box of a given tile to the map.
+        """
+        tile = self.tileset[tile_name]
+        for i in range(x, x + w):
+            for j in range(y, y + h):
+                self.tiles[i][j] = tile
+            
     def add_circle(self, x, y, radius, tile_name):
         """Add a filled circle.
         """
         tile = self.tileset[tile_name]
         
         def dist(x1, y1):
-            return sqrt((x - x1) ** 2 + (y - y1) ** 2)
+            return math.sqrt((x - x1) ** 2 + (y - y1) ** 2)
         
         for i in range(max(0, x-radius), min(x+radius, self.w-1)):
             for j in range(max(0, y-radius), min(y+radius, self.h-1)):
@@ -64,19 +72,20 @@ class TileMap(object):
         """
         self.add_box(0, 0, self.w, self.h, tile_name)
 
-    def add_line(self, x1, y1, x2, y2, tile_name):
+    def add_line(self, x0, y0, x1, y1, tile_name):
         """Adds a line of the tile to the map.
         Uses bresenham's line algorithm
         """
         tile = self.tileset[tile_name]
         
-        dx = abs(x2 - x1)
-        dy = abs(y2 - y1)
+        dx = abs(x1 - x0)
+        dy = abs(y1 - y0)
         sx = 1 if x0 < x1 else -1
         sy = 1 if y0 < y1 else -1
         error = dx - dy
 
-        self.tiles[x0][y0] = tile
+        if x0 >= 0 and x0 < self.w and y0 >= 0 and y0 < self.h:        
+            self.tiles[x0][y0] = tile
         while x0 != x1 or y0 != y1:
             e2 = 2 * error
             if e2 > -dy:
@@ -87,12 +96,14 @@ class TileMap(object):
                 error += dx
                 y0 += sy
 
-            self.tiles[x0][y0] = tile
+            if x0 >= 0 and x0 < self.w and y0 >= 0 and y0 < self.h:
+                self.tiles[x0][y0] = tile
 
     def fix_brick_walls(self):
         """After generation, this pass fixes up how walls connect to each other.
         """
         bricks = resourcemanager.tilesets["brick_tiles"]
+        castlewalls = resourcemanager.tilesets["castle_tiles"] 
         
         for i in xrange(0, self.w):
             for j in xrange(0, self.h):
@@ -101,8 +112,13 @@ class TileMap(object):
                     below = 0 if j == self.h-1 else int(not self.tiles[i][j+1] in bricks)
                     left  = 0 if i == 0 else int(not self.tiles[i-1][j] in bricks)
                     right = 0 if i == self.w-1 else int(not self.tiles[i+1][j] in bricks)
-
                     self.tiles[i][j] = bricks[above * 8 + right * 4 + below * 2 + left]
+                elif self.tiles[i][j] in castlewalls:
+                    above = 0 if j == 0 else int(not self.tiles[i][j-1] in castlewalls)
+                    below = 0 if j == self.h-1 else int(not self.tiles[i][j+1] in castlewalls)
+                    left  = 0 if i == 0 else int(not self.tiles[i-1][j] in castlewalls)
+                    right = 0 if i == self.w-1 else int(not self.tiles[i+1][j] in castlewalls)
+                    self.tiles[i][j] = castlewalls[above * 8 + right * 4 + below * 2 + left]
         
     def collide(self, rect, dx, dy):
         """Tests for collision with the tilemap.

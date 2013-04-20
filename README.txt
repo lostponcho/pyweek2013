@@ -7,8 +7,16 @@ URL: http://www.pyweek.org/e/underworldwar/
 
 Members: vwood <vwood.org@gmail.com>, mieponcho
 
+code: vwood
+
+art: mieponcho
+
 License: see LICENSE.txt (except the font, which has its own license)
 
+Running:
+	source: python main.py
+	windows: windows.exe
+	linux: ./linux
 
 DONE
 ----

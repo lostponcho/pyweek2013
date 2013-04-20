@@ -52,6 +52,9 @@ image_defs = {
     "crackedfloor.png" : {
         "cracked floor" : (0, 0, 32, 32),
         },
+    "castlefloor.png" : {
+        "castle floor" : (0, 0, 32, 32),
+        },
     "brickwall.png" : {
         "brick wall 1011" : (0, 0, 32, 32),
         "brick wall 1010" : (1, 0, 32, 32),
@@ -69,6 +72,24 @@ image_defs = {
         "brick wall 0010" : (1, 3, 32, 32),
         "brick wall 0110" : (2, 3, 32, 32),
         "brick wall 0001" : (3, 3, 32, 32),
+        },
+    "castlewalls.png" : {
+        "castle wall 1011" : (0, 0, 32, 32),
+        "castle wall 1010" : (1, 0, 32, 32),
+        "castle wall 1110" : (2, 0, 32, 32),
+        "castle wall 0000" : (3, 0, 32, 32),
+        "castle wall 1111" : (0, 1, 32, 32),
+        "castle wall 0111" : (1, 1, 32, 32),
+        "castle wall 1101" : (2, 1, 32, 32),
+        "castle wall 0101" : (3, 1, 32, 32),
+        "castle wall 1001" : (0, 2, 32, 32),
+        "castle wall 1000" : (1, 2, 32, 32),
+        "castle wall 1100" : (2, 2, 32, 32),
+        "castle wall 0100" : (3, 2, 32, 32),
+        "castle wall 0011" : (0, 3, 32, 32),
+        "castle wall 0010" : (1, 3, 32, 32),
+        "castle wall 0110" : (2, 3, 32, 32),
+        "castle wall 0001" : (3, 3, 32, 32),
         },
     "explosion27.png" : {
         "explosion small 1" : (1, 0, 64, 64),
@@ -147,6 +168,61 @@ image_defs = {
         "lich right 0" : (2, 1, 32, 32),
         "lich left fire" : (2, 2, 32, 32),
         "lich left 0" : (2, 3, 32, 32),
+        },
+
+    "peasant.png" : {
+        "peasant down fire" : (0, 0, 32, 32),
+        "peasant down 0" : (1, 0, 32, 32),
+        "peasant down 1" : (2, 0, 32, 32),
+        "peasant down 2" : (3, 0, 32, 32),
+        "peasant up fire" : (0, 1, 32, 32),
+        "peasant up 0" : (1, 1, 32, 32),
+        "peasant up 1" : (2, 1, 32, 32),
+        "peasant up 2" : (3, 1, 32, 32),
+        "peasant right fire" : (0, 2, 32, 32),
+        "peasant right 0" : (1, 2, 32, 32),
+        "peasant right 1" : (2, 2, 32, 32),
+        "peasant right 2" : (3, 2, 32, 32),
+        "peasant left fire" : (0, 3, 32, 32),
+        "peasant left 0" : (1, 3, 32, 32),
+        "peasant left 1" : (2, 3, 32, 32),
+        "peasant left 2" : (3, 3, 32, 32),
+        },
+    "imp.png" : {
+        "imp down fire" : (0, 0, 32, 32),
+        "imp down 0" : (1, 0, 32, 32),
+        "imp down 1" : (2, 0, 32, 32),
+        "imp down 2" : (3, 0, 32, 32),
+        "imp up fire" : (0, 1, 32, 32),
+        "imp up 0" : (1, 1, 32, 32),
+        "imp up 1" : (2, 1, 32, 32),
+        "imp up 2" : (3, 1, 32, 32),
+        "imp right fire" : (0, 2, 32, 32),
+        "imp right 0" : (1, 2, 32, 32),
+        "imp right 1" : (2, 2, 32, 32),
+        "imp right 2" : (3, 2, 32, 32),
+        "imp left fire" : (0, 3, 32, 32),
+        "imp left 0" : (1, 3, 32, 32),
+        "imp left 1" : (2, 3, 32, 32),
+        "imp left 2" : (3, 3, 32, 32),
+        },
+    "knight.png" : {
+        "knight down fire"  : (0, 0, 32, 37),
+        "knight down 0"     : (1, 0, 32, 37),
+        "knight down 1"     : (2, 0, 32, 37),
+        "knight down 2"     : (3, 0, 32, 37),
+        "knight up fire"    : (0, 1, 32, 37),
+        "knight up 0"       : (1, 1, 32, 37),
+        "knight up 1"       : (2, 1, 32, 37),
+        "knight up 2"       : (3, 1, 32, 37),
+        "knight right fire" : (0, 2, 32, 37),
+        "knight right 0"    : (1, 2, 32, 37),
+        "knight right 1"    : (2, 2, 32, 37),
+        "knight right 2"    : (3, 2, 32, 37),
+        "knight left fire"  : (0, 3, 32, 37),
+        "knight left 0"     : (1, 3, 32, 37),
+        "knight left 1"     : (2, 3, 32, 37),
+        "knight left 2"     : (3, 3, 32, 37),
         },
     }
 
@@ -231,10 +307,7 @@ animation_list_defs = {
 
     ### LICH ###
     "lich down fire" : [
-        "lich down fire",
-        "lich down fire",
-        "lich down fire",
-        "lich down fire",
+        "lich down fire", "lich down fire", "lich down fire", "lich down fire",
         ],
     "lich down" : [
         "lich down 0",
@@ -242,31 +315,125 @@ animation_list_defs = {
         "lich down 2",
         ],
     "lich up fire" : [
-        "lich up fire",
-        "lich up fire",
-        "lich up fire",
-        "lich up fire",
+        "lich up fire", "lich up fire", "lich up fire", "lich up fire",
         ],
     "lich up" : [
         "lich up 0",
         ],
     "lich right fire" : [
-        "lich right fire",
-        "lich right fire",
-        "lich right fire",
-        "lich right fire",
+        "lich right fire", "lich right fire", "lich right fire", "lich right fire",
         ],
     "lich right" : [
         "lich right 0",
         ],
     "lich left fire" : [
-        "lich left fire",
-        "lich left fire",
-        "lich left fire",
-        "lich left fire",
+        "lich left fire", "lich left fire", "lich left fire", "lich left fire",
         ],
     "lich left" : [
         "lich left 0",
+        ],
+
+
+    ### PEASANT ###
+    "peasant down fire" : [
+        "peasant down fire", "peasant down fire", "peasant down fire", "peasant down fire",
+        ],
+    "peasant down" : [
+        "peasant down 0",
+        "peasant down 1",
+        "peasant down 2",
+        ],
+    "peasant up fire" : [
+        "peasant up fire", "peasant up fire", "peasant up fire", "peasant up fire",
+        ],
+    "peasant up" : [
+        "peasant up 0",
+        "peasant up 1",
+        "peasant up 2",        
+        ],
+    "peasant right fire" : [
+        "peasant right fire", "peasant right fire", "peasant right fire", "peasant right fire",
+        ],
+    "peasant right" : [
+        "peasant right 0",
+        "peasant right 1",
+        "peasant right 2",
+        ],
+    "peasant left fire" : [
+        "peasant left fire", "peasant left fire", "peasant left fire", "peasant left fire",
+        ],
+    "peasant left" : [
+        "peasant left 0",
+        "peasant left 1",
+        "peasant left 2",        
+        ],
+    
+    ### IMP ###
+    "imp down fire" : [
+        "imp down fire", "imp down fire", "imp down fire", "imp down fire",
+        ],
+    "imp down" : [
+        "imp down 0",
+        "imp down 1",
+        "imp down 2",
+        ],
+    "imp up fire" : [
+        "imp up fire", "imp up fire", "imp up fire", "imp up fire",
+        ],
+    "imp up" : [
+        "imp up 0",
+        "imp up 1",
+        "imp up 2",        
+        ],
+    "imp right fire" : [
+        "imp right fire", "imp right fire", "imp right fire", "imp right fire",
+        ],
+    "imp right" : [
+        "imp right 0",
+        "imp right 1",
+        "imp right 2",
+        ],
+    "imp left fire" : [
+        "imp left fire", "imp left fire", "imp left fire", "imp left fire",
+        ],
+    "imp left" : [
+        "imp left 0",
+        "imp left 1",
+        "imp left 2",        
+        ],
+
+    ### KNIGHT ###
+    "knight down fire" : [
+        "knight down fire", "knight down fire", "knight down fire", "knight down fire",
+        ],
+    "knight down" : [
+        "knight down 0",
+        "knight down 1",
+        "knight down 2",
+        ],
+    "knight up fire" : [
+        "knight up fire", "knight up fire", "knight up fire", "knight up fire",
+        ],
+    "knight up" : [
+        "knight up 0",
+        "knight up 1",
+        "knight up 2",        
+        ],
+    "knight right fire" : [
+        "knight right fire", "knight right fire", "knight right fire", "knight right fire",
+        ],
+    "knight right" : [
+        "knight right 0",
+        "knight right 1",
+        "knight right 2",
+        ],
+    "knight left fire" : [
+        "knight left fire", "knight left fire", "knight left fire", "knight left fire",
+        ],
+    "knight left" : [
+        "knight left 0",
+        "knight left 1",
+        "knight left 2",        
         ],
     }
 
@@ -288,6 +455,33 @@ animation_state_defs = {
     "lich right" : ("lich right", "lich right"),
     "lich left fire" : ("lich left fire", "lich left"),
     "lich left" : ("lich left", "lich left"),
+
+    "peasant down fire" : ("peasant down fire", "peasant down"),
+    "peasant down" : ("peasant down", "peasant down"),
+    "peasant up fire" : ("peasant up fire", "peasant up"),
+    "peasant up" : ("peasant up", "peasant up"),
+    "peasant right fire" : ("peasant right fire", "peasant right"),
+    "peasant right" : ("peasant right", "peasant right"),
+    "peasant left fire" : ("peasant left fire", "peasant left"),
+    "peasant left" : ("peasant left", "peasant left"),
+
+    "imp down fire" : ("imp down fire", "imp down"),
+    "imp down" : ("imp down", "imp down"),
+    "imp up fire" : ("imp up fire", "imp up"),
+    "imp up" : ("imp up", "imp up"),
+    "imp right fire" : ("imp right fire", "imp right"),
+    "imp right" : ("imp right", "imp right"),
+    "imp left fire" : ("imp left fire", "imp left"),
+    "imp left" : ("imp left", "imp left"),
+
+    "knight down fire" : ("knight down fire", "knight down"),
+    "knight down" : ("knight down", "knight down"),
+    "knight up fire" : ("knight up fire", "knight up"),
+    "knight up" : ("knight up", "knight up"),
+    "knight right fire" : ("knight right fire", "knight right"),
+    "knight right" : ("knight right", "knight right"),
+    "knight left fire" : ("knight left fire", "knight left"),
+    "knight left" : ("knight left", "knight left"),
     }
 
 # Tiles = (image name, is_blocked)
@@ -297,6 +491,7 @@ tile_defs = {
     "blue floor"       : ("blue floor", False),
     "grass"            : ("grass", False),
     "cracked floor"    : ("cracked floor", False),
+    "castle floor"     : ("castle floor", False),    
     "brick wall 1011"  : ("brick wall 1011", True),
     "brick wall 1010"  : ("brick wall 1010", True),
     "brick wall 1110"  : ("brick wall 1110", True),
@@ -313,6 +508,23 @@ tile_defs = {
     "brick wall 0010"  : ("brick wall 0010", True),
     "brick wall 0110"  : ("brick wall 0110", True),
     "brick wall 0001"  : ("brick wall 0001", True),
+
+    "castle wall 1011"  : ("castle wall 1011", True),
+    "castle wall 1010"  : ("castle wall 1010", True),
+    "castle wall 1110"  : ("castle wall 1110", True),
+    "castle wall 0000"  : ("castle wall 0000", True),
+    "castle wall 1111"  : ("castle wall 1111", True),
+    "castle wall 0111"  : ("castle wall 0111", True),
+    "castle wall 1101"  : ("castle wall 1101", True),
+    "castle wall 0101"  : ("castle wall 0101", True),
+    "castle wall 1001"  : ("castle wall 1001", True),
+    "castle wall 1000"  : ("castle wall 1000", True),
+    "castle wall 1100"  : ("castle wall 1100", True),
+    "castle wall 0100"  : ("castle wall 0100", True),
+    "castle wall 0011"  : ("castle wall 0011", True),
+    "castle wall 0010"  : ("castle wall 0010", True),
+    "castle wall 0110"  : ("castle wall 0110", True),
+    "castle wall 0001"  : ("castle wall 0001", True),
     }
 
 tileset_defs = {
@@ -323,6 +535,26 @@ tileset_defs = {
         "grass",
         "cracked floor",
         "brick wall 0000",
+        ],
+    "generation" : [
+        "dark floor", "dark floor", "dark floor", "dark floor", "dark floor",
+        "light floor", "light floor", "light floor", "light floor", "light floor",
+        "blue floor", "blue floor", "blue floor", "blue floor", "blue floor",
+        "blue floor", "blue floor", "blue floor", "blue floor", "blue floor",
+        "brick wall 0000",        
+        ],
+    "base floors" : [
+        "dark floor",
+        "light floor",
+        "blue floor",
+        ],
+    "evil floors" : [
+        "dark floor",
+        "cracked floor",
+        ],
+    "good floors" : [
+        "light floor",
+        "grass",
         ],
     "brick_tiles" : [
         "brick wall 0000",
@@ -341,6 +573,24 @@ tileset_defs = {
         "brick wall 1101",
         "brick wall 1110",
         "brick wall 1111",
+        ],
+    "castle_tiles" : [
+        "castle wall 0000",
+        "castle wall 0001",
+        "castle wall 0010",
+        "castle wall 0011",
+        "castle wall 0100",
+        "castle wall 0101",        
+        "castle wall 0110",
+        "castle wall 0111",
+        "castle wall 1000",
+        "castle wall 1001",
+        "castle wall 1010",
+        "castle wall 1011",
+        "castle wall 1100",
+        "castle wall 1101",
+        "castle wall 1110",
+        "castle wall 1111",
         ],
     }
 

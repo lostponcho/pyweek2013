@@ -132,23 +132,38 @@ class GameState(object):
         self.game = game
         self.entities = []
 
-        player = entity.make_lich(self, 400, 300)
+        player = entity.make_lich(self, 5 * 32, 35 * 32)
         self.entities.append(player)
         self.player = entity.Player(self, player)
+        self.player_speed = 150
 
         self.cx, self.cy = 400, 300
+        self.cdx, self.cdy = 0, 0
         self.cross = pygame.sprite.Sprite()
         self.cross.image = resourcemanager.images["crosshair"]
         self.cross.rect = self.cross.image.rect.move(self.cx, self.cy)
 
-        self.cdx, self.cdy = 0, 0
-
         self.hud = text.Text(x=10, y=10, font=game.font_s, text="HUD MESSAGE!",
                              color=(255, 255, 255), background=(0, 0, 255), alpha=96)
 
+#        floors, evil floors, good floors
         self.map = tilemap.TileMap(resourcemanager.tiles, "grass", 80, 60, 32, 32)
-        self.map.random_fill(resourcemanager.tilesets["base_tileset"])
+        self.map.random_fill(resourcemanager.tilesets["generation"])
+        self.map.add_circle(60, 10, 10, "grass")
+        self.map.add_circle(50, 20, 10, "grass")
+        self.map.add_circle(70, 20, 10, "grass")
+        self.map.add_filled_box(60, 0, 20, 20, "castle floor")
+        self.map.add_circle(10, 45, 10, "dark floor")
+        self.map.add_circle(10, 45, 5, "cracked floor")
+        self.map.add_circle(5, 35, 5, "cracked floor")
+        self.map.add_line(60, 59, 40, 30, "brick wall 0000")
+        self.map.add_line(61, 59, 41, 30, "brick wall 0000")
+        self.map.add_line(0, 20, 30, 50, "brick wall 0000")
+        self.map.add_line(1, 20, 31, 50, "brick wall 0000")
         self.map.add_edge_wall("brick wall 0000")
+        self.map.add_line(60, 10, 70, 10, "castle wall 0000")
+        self.map.add_box(60, 0, 20, 20, "castle wall 0000")
+        self.map.add_filled_box(60, 17, 3, 3, "castle floor")
         self.map.fix_brick_walls()
 
         self.camera = camera.Camera(self.game.width, self.game.height,
@@ -162,13 +177,13 @@ class GameState(object):
                 resourcemanager.sounds["select"].play()
                 self.game.set_state(TitleState(self.game))
             elif event.key == K_w:
-                self.player.dy -= 100
+                self.player.dy -= self.player_speed
             elif event.key == K_a:
-                self.player.dx -= 100
+                self.player.dx -= self.player_speed
             elif event.key == K_s:
-                self.player.dy += 100
+                self.player.dy += self.player_speed
             elif event.key == K_d:
-                self.player.dx += 100
+                self.player.dx += self.player_speed
             elif event.key == K_p:
                 resourcemanager.sounds["select"].play()
                 self.game.set_state(PauseState(self.game, self))
@@ -180,24 +195,24 @@ class GameState(object):
                         break
         elif event.type == KEYUP:
             if event.key == K_w:
-                self.player.dy += 100
+                self.player.dy += self.player_speed
             elif event.key == K_a:
-                self.player.dx += 100
+                self.player.dx += self.player_speed
             elif event.key == K_s:
-                self.player.dy -= 100
+                self.player.dy -= self.player_speed
             elif event.key == K_d:
-                self.player.dx -= 100
+                self.player.dx -= self.player_speed
         elif event.type == JOYAXISMOTION:
             if event.axis == 0:
                 if abs(event.value) > 0.2:
-                    self.dx = event.value * 300
+                    self.player.dx = event.value * self.player_speed
                 else:
-                    self.dx = 0
+                    self.player.dx = 0
             elif event.axis == 1:
                 if abs(event.value) > 0.2:
-                    self.dy = event.value * 300
+                    self.player.dy = event.value * self.player_speed
                 else:
-                    self.dy = 0
+                    self.player.dy = 0
             elif event.axis == 3:
                 if abs(event.value) > 0.2:
                     self.cdx = event.value * 300
@@ -209,10 +224,27 @@ class GameState(object):
                 else:
                     self.cdy = 0
             else:
-                print "Movement on {} axis.".format(event.axis)                
+                print "Movement on {} axis.".format(event.axis)
         elif event.type == pygame.JOYBUTTONDOWN:
             if event.button == 0:
-                self.entities.append(entity.make_spider(self, self.man.rect.x, self.man.rect.y))
+                select = random.randint(0,3)
+                if select == 0:
+                    self.entities.append(entity.make_spider(self,
+                                                            self.player.entity.pos.x,
+                                                            self.player.entity.pos.y))
+
+                elif select == 1:
+                    self.entities.append(entity.make_knight(self,
+                                                            self.player.entity.pos.x,
+                                                            self.player.entity.pos.y))
+                elif select == 2:
+                    self.entities.append(entity.make_peasant(self,
+                                                            self.player.entity.pos.x,
+                                                            self.player.entity.pos.y))
+                else:
+                    self.entities.append(entity.make_imp(self,
+                                                            self.player.entity.pos.x,
+                                                            self.player.entity.pos.y))
             elif event.button == 6:
                 resourcemanager.sounds["select"].play()
                 self.game.set_state(PauseState(self.game, self))
@@ -221,13 +253,16 @@ class GameState(object):
                 explosion_size = random.randint(0, 2)
                 if explosion_size == 0:
                     self.entities.append(entity.make_small_explosion(self,
-                                                                     self.man.rect.x, self.man.rect.y))
+                                                                     self.player.entity.pos.x,
+                                                                     self.player.entity.pos.y))
                 elif explosion_size == 1:
                     self.entities.append(entity.make_medium_explosion(self,
-                                                                     self.man.rect.x, self.man.rect.y))
+                                                                     self.player.entity.pos.x,
+                                                                     self.player.entity.pos.y))
                 else:
                     self.entities.append(entity.make_large_explosion(self,
-                                                                     self.man.rect.x, self.man.rect.y))
+                                                                     self.player.entity.pos.x,
+                                                                     self.player.entity.pos.y))
                 resourcemanager.sounds["explosion"].play()
 
         elif event.type == pygame.JOYBUTTONUP:
@@ -256,11 +291,11 @@ class GameState(object):
     def display(self, screen):
         self.map.display(screen, self.camera.pos)
 
-        self.cross.image.draw(screen, self.cross.rect.move(-self.camera.pos.x, -self.camera.pos.y))
+        self.cross.image.draw(screen, self.cross.rect)
 
         for entity in self.entities:
             entity.draw(screen, self.camera.pos)
-            
+
         self.hud.display(screen)
 
 class PauseState(object):

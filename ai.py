@@ -45,11 +45,10 @@ def die_on_animation_end(entity):
     if entity.animation.is_done():
         entity.remove = True
 
-def random_movement(entity):
-    entity.dpos.x = random.randint(-8, 8) 
-    entity.dpos.y = random.randint(-8, 8)
-
-    # TODO: replace this with some state thing? Animation tree?
+def spider_ai(entity):
+    entity.dpos.x = random.randint(-120, 120)
+    entity.dpos.y = random.randint(-120, 120)
+    
     if abs(entity.dpos.x) > abs(entity.dpos.y):
         if entity.dpos.x > 0:
             entity.animation.change(resourcemanager.animation_states["spider right"])
@@ -61,30 +60,47 @@ def random_movement(entity):
         else:
             entity.animation.change(resourcemanager.animation_states["spider up"])
             
-def random_movement(entity):
-    entity.dpos.x = random.randint(-8, 8) 
-    entity.dpos.y = random.randint(-8, 8)
-
-    # TODO: replace this with some state thing? Animation tree?
+def imp_ai(entity):
+    entity.dpos.x = random.randint(-120, 120)
+    entity.dpos.y = random.randint(-120, 120)
+    
     if abs(entity.dpos.x) > abs(entity.dpos.y):
         if entity.dpos.x > 0:
-            entity.animation.change(resourcemanager.animation_states["spider right"])
+            entity.animation.change(resourcemanager.animation_states["imp right"])
         else:
-            entity.animation.change(resourcemanager.animation_states["spider left"])
+            entity.animation.change(resourcemanager.animation_states["imp left"])
     else:
         if entity.dpos.y > 0:
-            entity.animation.change(resourcemanager.animation_states["spider down"])
+            entity.animation.change(resourcemanager.animation_states["imp down"])
         else:
-            entity.animation.change(resourcemanager.animation_states["spider up"])
-        
-class Sequence(object):
-    """Stores a sequence of actions + tests that consitute a behaviour.
-    """
-    def __init__(self):
-        pass
-
-class AI(object):
-    """Stores the state for the AI of an entity.
-    """
-    def __init__(self):
-        pass
+            entity.animation.change(resourcemanager.animation_states["imp up"])
+            
+def peasant_ai(entity):
+    entity.dpos.x = random.randint(-120, 120)
+    entity.dpos.y = random.randint(-120, 120)
+    
+    if abs(entity.dpos.x) > abs(entity.dpos.y):
+        if entity.dpos.x > 0:
+            entity.animation.change(resourcemanager.animation_states["peasant right"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["peasant left"])
+    else:
+        if entity.dpos.y > 0:
+            entity.animation.change(resourcemanager.animation_states["peasant down"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["peasant up"])
+            
+def knight_ai(entity):
+    entity.dpos.x = random.randint(-120, 120)
+    entity.dpos.y = random.randint(-120, 120)
+    
+    if abs(entity.dpos.x) > abs(entity.dpos.y):
+        if entity.dpos.x > 0:
+            entity.animation.change(resourcemanager.animation_states["knight right"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["knight left"])
+    else:
+        if entity.dpos.y > 0:
+            entity.animation.change(resourcemanager.animation_states["knight down"])
+        else:
+            entity.animation.change(resourcemanager.animation_states["knight up"])

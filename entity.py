@@ -39,7 +39,7 @@ class Entity(object):
         self.ai = ai
         self.animation = animation
         self.pos = pos.copy()
-        self.dpos = pygame.Rect(0,0,0,0)
+        self.dpos = Rect(0,0,0,0)
         self.remove = False
         self.name = name
 
@@ -51,7 +51,9 @@ class Entity(object):
         self.dpos.y += dy
         
     def move_update(self, tick):
-        dx, dy = self.world.map.collide(self.pos, self.dpos.x * tick, self.dpos.y * tick)
+        # int() is necessary as by default it gives us a negative bias
+        dx, dy = self.world.map.collide(self.pos, int(self.dpos.x * tick), int(self.dpos.y * tick))
+
         self.pos.x += dx
         self.pos.y += dy
         self.dpos.x = 0
@@ -90,10 +92,10 @@ def make_large_explosion(world, x, y):
 
 def make_spider(world, x, y):
     return Entity(world,
-                  Rect(x, y, 32, 32),                  
+                  Rect(x, y, 31, 31), 
                   animation.Animation(resourcemanager.animation_states["spider down"]),
                   Rect(0, 0, 32, 32),
-                  ai.random_movement,
+                  ai.spider_ai,
                   "Spider")
 
 def make_lich(world, x, y):
@@ -103,5 +105,31 @@ def make_lich(world, x, y):
                   Rect(0, 0, 32, 32),
                   None,
                   "Lich")
+    
+def make_peasant(world, x, y):
+    return Entity(world,
+                  Rect(x, y, 31, 31),                  
+                  animation.Animation(resourcemanager.animation_states["peasant down"]),
+                  Rect(0, 0, 32, 32),
+                  ai.peasant_ai,
+                  "Peasant")
+
+    
+def make_knight(world, x, y):
+    return Entity(world,
+                  Rect(x, y, 31, 31),                  
+                  animation.Animation(resourcemanager.animation_states["knight down"]),
+                  Rect(0, 0, 32, 32),
+                  ai.knight_ai,
+                  "Knight")
+
+    
+def make_imp(world, x, y):
+    return Entity(world,
+                  Rect(x, y, 31, 31),                  
+                  animation.Animation(resourcemanager.animation_states["imp down"]),
+                  Rect(0, 0, 32, 32),
+                  ai.imp_ai,
+                  "Imp")
 
     
