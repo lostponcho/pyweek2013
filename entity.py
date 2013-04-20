@@ -117,7 +117,7 @@ def make_peasant(world, x, y):
     
 def make_knight(world, x, y):
     return Entity(world,
-                  Rect(x, y, 31, 31),                  
+                  Rect(x, y, 36, 36),                  
                   animation.Animation(resourcemanager.animation_states["knight down"]),
                   Rect(0, 0, 32, 32),
                   ai.knight_ai,

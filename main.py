@@ -166,6 +166,17 @@ class GameState(object):
         self.map.add_filled_box(60, 17, 3, 3, "castle floor")
         self.map.fix_brick_walls()
 
+        self.entities.append(entity.make_knight(self, 32 * 62, 32 * 5))
+        for _ in range(5):
+            self.entities.append(entity.make_peasant(self, 32 * 60, 32 * 25))
+        for _ in range(5):
+            self.entities.append(entity.make_peasant(self, 32 * 50, 32 * 20))
+        for _ in range(5):
+            self.entities.append(entity.make_peasant(self, 32 * 50, 32 * 10))
+
+        for i in range(4):
+            self.entities.append(entity.make_imp(self, 32 * (10 + i), 32 * 45))
+            
         self.camera = camera.Camera(self.game.width, self.game.height,
                                     self.map.w * self.map.tile_w,
                                     self.map.h * self.map.tile_h)
