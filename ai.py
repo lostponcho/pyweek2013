@@ -114,3 +114,17 @@ def knight_ai(entity):
             entity.animation.change(resourcemanager.animation_states["knight down"])
         else:
             entity.animation.change(resourcemanager.animation_states["knight up"])
+            
+def make_fireball_ai(dx, dy):
+    def fireball_ai(entity):
+        entity.dpos.x = dx
+        entity.dpos.y = dy
+        if entity.hit_wall:
+            entity.pos.x -= 24
+            entity.pos.y -= 24            
+            entity.dpos.x = 0
+            entity.dpos.y = 0
+            entity.animation.change(resourcemanager.animation_states["small explosion"])            
+            entity.ai = die_on_animation_end
+            resourcemanager.sounds["fireball"].play()
+    return fireball_ai

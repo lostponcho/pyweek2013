@@ -5,6 +5,7 @@ import resourcemanager
 import animation
 import ai
 
+import math
 import random
 
 # Collision rects should be floor rects - to work with the wall images
@@ -43,6 +44,7 @@ class Entity(object):
         self.remove = False
         self.name = name
         self.speed = speed
+        self.hit_wall = False
 
     def animation_update(self):
         self.animation.update()
@@ -53,7 +55,9 @@ class Entity(object):
         
     def move_update(self, tick):
         # int() is necessary as by default it gives us a negative bias
-        dx, dy = self.world.map.collide(self.pos, int(self.dpos.x * tick), int(self.dpos.y * tick))
+        dx, dy, self.hit_wall = self.world.map.collide(self.pos,
+                                                       int(self.dpos.x * tick),
+                                                       int(self.dpos.y * tick))
 
         self.pos.x += dx
         self.pos.y += dy
@@ -132,5 +136,38 @@ def make_imp(world, x, y):
                   Rect(0, 0, 32, 32),
                   ai.imp_ai,
                   "Imp")
+
+def make_fireball(world, x, y, dx, dy, speed = 300):
+    dist = math.sqrt(dx ** 2 + dy ** 2)
+    dx *= speed / dist
+    dy *= speed / dist    
+    
+    if 2 * abs(dy) > abs(dx):
+        if dy > 0:
+            anim = "fireball down"
+        else:
+            anim = "fireball up"
+    elif 2 * abs(dx) > abs(dy):
+        if dx > 0:
+            anim = "fireball right"
+        else:
+            anim = "fireball left"
+    elif dx > 0:
+        if dy > 0:
+            anim = "fireball down right"
+        else:
+            anim = "fireball up right"
+    else:
+        if dy > 0:
+            anim = "fireball down left"
+        else:
+            anim = "fireball up left"
+    
+    return Entity(world,
+                  Rect(x, y, 16, 16),                  
+                  animation.Animation(resourcemanager.animation_states[anim]),
+                  Rect(0, 0, 16, 16),
+                  ai.make_fireball_ai(dx, dy),
+                  "Fireball")
 
     

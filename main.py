@@ -137,11 +137,10 @@ class GameState(object):
         self.player = entity.Player(self, player)
         self.player_speed = 150
 
-        self.cx, self.cy = 400, 300
         self.cdx, self.cdy = 0, 0
         self.cross = pygame.sprite.Sprite()
         self.cross.image = resourcemanager.images["crosshair"]
-        self.cross.rect = self.cross.image.rect.move(self.cx, self.cy)
+        self.cross.rect = self.cross.image.rect.move(self.game.width / 2, self.game.height / 2)
 
         self.hud = text.Text(x=10, y=10, font=game.font_s, text="HUD MESSAGE!",
                              color=(255, 255, 255), background=(0, 0, 255), alpha=96)
@@ -237,7 +236,7 @@ class GameState(object):
             else:
                 print "Movement on {} axis.".format(event.axis)
         elif event.type == pygame.JOYBUTTONDOWN:
-            if event.button == 0:
+            if event.button == 5:
                 select = random.randint(0,3)
                 if select == 0:
                     self.entities.append(entity.make_spider(self,
@@ -260,22 +259,14 @@ class GameState(object):
                 resourcemanager.sounds["select"].play()
                 self.game.set_state(PauseState(self.game, self))
             else:
-                print "Joystick button {} pressed.".format(event.button)
-                explosion_size = random.randint(0, 2)
-                if explosion_size == 0:
-                    self.entities.append(entity.make_small_explosion(self,
-                                                                     self.player.entity.pos.x,
-                                                                     self.player.entity.pos.y))
-                elif explosion_size == 1:
-                    self.entities.append(entity.make_medium_explosion(self,
-                                                                     self.player.entity.pos.x,
-                                                                     self.player.entity.pos.y))
-                else:
-                    self.entities.append(entity.make_large_explosion(self,
-                                                                     self.player.entity.pos.x,
-                                                                     self.player.entity.pos.y))
-                resourcemanager.sounds["explosion"].play()
-
+                tx = self.camera.pos.x + self.cross.rect.x - self.player.entity.pos.x
+                ty = self.camera.pos.y + self.cross.rect.y - self.player.entity.pos.y
+                if tx == 0 and ty == 0: tx = 1
+                
+                self.entities.append(entity.make_fireball(self,
+                                                          self.player.entity.pos.x,
+                                                          self.player.entity.pos.y,
+                                                          tx, ty))
         elif event.type == pygame.JOYBUTTONUP:
             print "Joystick button released."
         elif event.type == JOYBALLMOTION:

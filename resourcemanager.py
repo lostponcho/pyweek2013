@@ -224,6 +224,20 @@ image_defs = {
         "knight left 1"     : (2, 3, 32, 37),
         "knight left 2"     : (3, 3, 32, 37),
         },
+    "fireball.png" : {
+        "fireball right 0"    : (0, 0, 16, 16),
+        "fireball right 1"    : (1, 0, 16, 16),         
+        "fireball left 0"     : (2, 0, 16, 16),
+        "fireball left 1"     : (3, 0, 16, 16),         
+        "fireball down 0"     : (0, 1, 16, 16),
+        "fireball down 1"     : (1, 1, 16, 16),         
+        "fireball up 0"       : (2, 1, 16, 16),
+        "fireball up 1"       : (3, 1, 16, 16),         
+        "fireball down left"  : (0, 2, 16, 16),
+        "fireball down right" : (1, 2, 16, 16),         
+        "fireball up right"   : (2, 2, 16, 16),
+        "fireball up left"    : (3, 2, 16, 16),
+        },
     }
 
 # Animations are broken up into some parts
@@ -435,6 +449,36 @@ animation_list_defs = {
         "knight left 1",
         "knight left 2",        
         ],
+
+    "fireball right" : [
+        "fireball right 0",
+        "fireball right 1",
+        ],
+    "fireball left" : [
+        "fireball left 0",
+        "fireball left 1",
+        ],
+    "fireball down" : [
+        "fireball down 0",
+        "fireball down 1",
+        ],
+    "fireball up" : [
+        "fireball up 0",
+        "fireball up 1",
+        ],
+    "fireball down right" : [
+        "fireball down right",
+        ],
+    "fireball down left" : [
+        "fireball down left",
+        ],
+    "fireball up right" : [
+        "fireball up right",
+        ],
+    "fireball up left" : [
+        "fireball up left",
+        ],
+    
     }
 
 # Second the state definitions (a list reference, and a next state)
@@ -482,6 +526,15 @@ animation_state_defs = {
     "knight right" : ("knight right", "knight right"),
     "knight left fire" : ("knight left fire", "knight left"),
     "knight left" : ("knight left", "knight left"),
+
+    "fireball right" : ("fireball right", "fireball right"), 
+    "fireball left" : ("fireball left", "fireball left"), 
+    "fireball up" : ("fireball up", "fireball up"), 
+    "fireball down" : ("fireball down", "fireball down"), 
+    "fireball down right" : ("fireball down right", "fireball down right"), 
+    "fireball up right" : ("fireball up right", "fireball up right"), 
+    "fireball down left" : ("fireball down left", "fireball down left"), 
+    "fireball up left" : ("fireball up left", "fireball up left"), 
     }
 
 # Tiles = (image name, is_blocked)
@@ -605,11 +658,11 @@ def load_resources():
     loaded_resources = True
 
     if getattr(sys, 'frozen', None):
-        try:
-            # Pyinstaller
-            basedir = sys._MEIPASS
-        except:
-            # Py2exe
+        # try:
+        #     # Pyinstaller
+        #     basedir = sys._MEIPASS
+        # except:
+        #     # Py2exe
             basedir = '.'
     else:
         basedir = os.path.dirname(__file__)

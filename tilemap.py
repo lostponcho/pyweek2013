@@ -125,8 +125,9 @@ class TileMap(object):
         Should not collide with a tile if entity is already inside that tile. (So we don't get stuck)
         """
 
+        collision = False
         if dx == 0 and dy == 0:
-            return 0, 0
+            return 0, 0, collision
         
         x, y, w, h = rect
 
@@ -150,6 +151,7 @@ class TileMap(object):
                         x_to_be_hard_against = (tile_x - 1) * self.tile_w + self.tile_w
                         x_to_be_at = x_to_be_hard_against - w - 1 # Possibly -1
                         dx = x_to_be_at - x
+                        collision = True
                         break
                 
         else:
@@ -167,6 +169,7 @@ class TileMap(object):
                         x_to_be_hard_against = (tile_x + 1) * self.tile_w
                         x_to_be_at = x_to_be_hard_against # Possibly +1
                         dx = x_to_be_at - x
+                        collision = True
                         break
 
         # Handle y movement
@@ -186,6 +189,7 @@ class TileMap(object):
                         y_to_be_hard_against = (tile_y - 1) * self.tile_h + self.tile_h
                         y_to_be_at = y_to_be_hard_against - h - 1 # Possibly -1
                         dy = y_to_be_at - y
+                        collision = True
                         break
                 
         else:
@@ -201,9 +205,10 @@ class TileMap(object):
                         y_to_be_hard_against = (tile_y + 1) * self.tile_h
                         y_to_be_at = y_to_be_hard_against # Possibly +1
                         dy = y_to_be_at - y
+                        collision = True
                         break
 
-        return dx, dy
+        return dx, dy, collision
 
     def display(self, screen, camera):
         cx, cy, cw, ch = camera
