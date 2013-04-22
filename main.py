@@ -12,6 +12,7 @@ import camera
 import animation
 import entity
 import random
+import world
 
 class Game(object):
     title = "Underworld Kerfuffle"
@@ -130,6 +131,10 @@ class TitleState(object):
 class GameState(object):
     def __init__(self, game):
         self.game = game
+
+# TODO: Not ready yet
+#        self.world = world.make_default_world()
+        
         self.entities = []
 
         player = entity.make_lich(self, 5 * 32, 35 * 32)
@@ -181,6 +186,7 @@ class GameState(object):
                                     self.map.h * self.map.tile_h)
 
 
+    # TODO: send messages to a controls object that can change bindings
     def handle_event(self, event):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
