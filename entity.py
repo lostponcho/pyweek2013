@@ -27,8 +27,25 @@ class Player(object):
         self.entity.ai = self
         self.dx, self.dy = 0, 0
 
+        self.move_left = 0
+        self.move_right = 0
+        self.move_up = 0
+        self.move_down = 0
+
     def __call__(self, entity):
         entity.move(self.dx, self.dy)
+
+    def move_left(self, value):
+        self.move_left = value
+        
+    def move_right(self, value):
+        self.move_right = value
+        
+    def move_up(self, value):
+        self.move_up = value
+        
+    def move_down(self, value):
+        self.move_down = value
         
 
 class Entity(object):
