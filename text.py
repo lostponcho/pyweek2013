@@ -43,7 +43,8 @@ class Text(object):
             self.surface = self.font.render(self.text, True, self.color, self.background)
         else:
             self.surface = self.font.render(self.text, True, self.color)
-        self.surface.set_alpha(self.alpha)
+        if self.alpha is not None:
+            self.surface.set_alpha(self.alpha)
         x, y, _, _ = self.pos
         self.pos = self.surface.get_rect(x=x, y=y)
     

@@ -2,10 +2,21 @@ Underworld Kerfuffle
 ====================
 
 Entry in PyWeek 16 (2013)
+
 URL: http://www.pyweek.org/e/underworldwar/
+
 Members: vwood <vwood.org@gmail.com>, mieponcho
+
+code: vwood
+
+art: mieponcho
+
 License: see LICENSE.txt (except the font, which has its own license)
 
+Running:
+	source: python main.py
+	windows: windows.exe
+	linux: ./linux
 
 DONE
 ----
@@ -14,27 +25,31 @@ DONE
 
 * Camera follows player, and tile layer
 
+* Store entities in data structures
+
+* Better API for drawing to the map
+  - Lines (such that they will block movement)
+  - mini tilesets (like floor tiles, themes, wall tiles...) to generate a circle of tiles from a mini tileset  
+
+* Entities
+  - Separate sprites into collision and drawing sprites (Pygame uses the same Rect for both, which sucks)
+
+* Level Generation
+  - Tile fixing according to rules (for wallsets and door direction, etc.)
+    - Generation should just use a basic member of each wall type, and this pass would fix the edges
+
+
 TODO
 ----
 
-* Store entities in data structures
-  - Lists based on collision/update type
+* Entity Lists based on collision/update type
 
 * Level Generation
-  - Better API for drawing to the map
-  - More tools:
-    - Lines (such that they will block movement)
-    - Generate from a tree structure (containing points where the areas should be generated)
-    - mini tilesets (like floor tiles, themes, wall tiles...) to generate a circle of tiles from a mini tileset
-  - Tile fixing according to rules (for wallsets and door direction, etc.)
-    - Generation should just use a basic member of each wall type, and this pass would fix the edges
+  - Generate from a tree structure (containing points where the areas should be generated)
   
 * Terrain manipulation
   - Digging dirt
   - Opening/Closing doors
-  
-* Entities
-  - Separate sprites into collision and drawing sprites (Pygame uses the same Rect for both, which sucks)
   
 * AI
   - Currently just a draft of behaviours
@@ -44,7 +59,7 @@ TODO
   
 * Gameplay
   - Player switching to control different entities
-  - Using abilities.
+  - Shooting
   
 * Triggered boss fight (allows for a proper ending)
   - mid way mini boss fight
